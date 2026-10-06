@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact Seller - MarketX</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            background: #f4f6f8;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .contact-container {
+            max-width: 750px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        }
+
+        .contact-card h1 {
+            margin: 0 0 8px;
+            color: #111827;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .car-box {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .car-box h2 {
+            margin: 0 0 10px;
+            color: #111827;
+        }
+
+        .car-info {
+            color: #6b7280;
+            margin: 5px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            resize: vertical;
+            font-size: 15px;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+        }
+
+        .send-btn {
+            width: 100%;
+            padding: 15px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .send-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .send-btn:disabled {
+            background: #93c5fd;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #374151;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contact-container">
+
+    <a href="car-list.html" class="back-link">
+        ← Back to Cars
+    </a>
+
+    <div id="loading" class="loading">
+        Loading car details...
+    </div>
+
+    <div id="contactCard" class="contact-card" style="display:none;">
+
+        <h1>Contact Seller</h1>
+
+        <p class="subtitle">
+            Send a message to the seller about this car.
+        </p>
+
+        <div class="car-box">
+
+            <h2 id="carTitle">
+                Car
+            </h2>
+
+            <p class="car-info">
+                Variant:
+                <strong id="carVariant">-</strong>
+            </p>
+
+            <p class="car-info">
+                Price:
+                <strong id="carPrice">-</strong>
+            </p>
+
+            <p class="car-info">
+                Location:
+                <strong id="carLocation">-</strong>
+            </p>
+
+        </div>
+
+        <form id="inquiryForm">
+
+            <div class="form-group">
+
+                <label for="message">
+                    Your Message
+                </label>
+
+                <textarea
+                    id="message"
+                    placeholder="Example: Hi, I am interested in this car. Is it still available?"
+                    maxlength="1000"
+                    required></textarea>
+
+            </div>
+
+            <button
+                type="submit"
+                id="sendBtn"
+                class="send-btn">
+
+                Send Message
+
+            </button>
+
+        </form>
+
+        <div id="resultMessage" class="message"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const carId = params.get("id");
+
+let currentCar = null;
+
+
+// =============================
+// LOAD CAR
+// =============================
+
+async function loadCar() {
+
+    if (!carId) {
+
+        showError("Car ID is missing.");
+
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "/api/cars/" + carId + "?t=" + Date.now(),
+            {
+                method: "GET",
+                credentials: "include",
+                cache: "no-store"
+            }
+        );
+
+        if (!response.ok) {
+
+            showError("Car not found.");
+
+            return;
+        }
+
+        currentCar = await response.json();
+
+        console.log("Car:", currentCar);
+
+        document.getElementById("carTitle").textContent =
+            (currentCar.brand || "") + " " +
+            (currentCar.model || "");
+
+        document.getElementById("carVariant").textContent =
+            currentCar.variant || "-";
+
+        document.getElementById("carPrice").textContent =
+            "₹" + Number(currentCar.price || 0).toLocaleString("en-IN");
+
+        document.getElementById("carLocation").textContent =
+            currentCar.location || "-";
+
+
+        document.getElementById("loading").style.display = "none";
+
+        document.getElementById("contactCard").style.display = "block";
+
+    } catch (error) {
+
+        console.error(error);
+
+        showError("Unable to connect to MarketX.");
+
+    }
+}
+
+
+// =============================
+// SEND MESSAGE
+// =============================
+
+document.getElementById("inquiryForm")
+.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const message =
+        document.getElementById("message")
+        .value
+        .trim();
+
+    const sendBtn =
+        document.getElementById("sendBtn");
+
+
+    if (!message) {
+
+        showMessage(
+            "Please enter a message.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    sendBtn.disabled = true;
+
+    sendBtn.textContent = "Sending...";
+
+
+    try {
+
+        const response = await fetch(
+            "/api/inquiries",
+            {
+                method: "POST",
+
+                credentials: "include",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    carId: Number(carId),
+
+                    message: message
+
+                })
+            }
+        );
+
+
+        const result = await response.text();
+
+        console.log(
+            "Inquiry response:",
+            result
+        );
+
+
+        if (response.status === 401 ||
+            response.status === 403) {
+
+            showMessage(
+                "Please login before contacting the seller.",
+                "error"
+            );
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "login.html";
+
+            }, 1500);
+
+            return;
+        }
+
+
+        if (!response.ok) {
+
+            showMessage(
+                result || "Message could not be sent.",
+                "error"
+            );
+
+            sendBtn.disabled = false;
+
+            sendBtn.textContent =
+                "Send Message";
+
+            return;
+        }
+
+
+        showMessage(
+            "Message sent successfully!",
+            "success"
+        );
+
+
+        document.getElementById("message")
+            .value = "";
+
+
+        sendBtn.textContent = "Message Sent";
+
+
+        setTimeout(() => {
+
+            window.location.href =
+                "my-inquiries.html";
+
+        }, 1500);
+
+
+    } catch (error) {
+
+        console.error(
+            "Inquiry error:",
+            error
+        );
+
+        showMessage(
+            "Unable to send message. Please try again.",
+            "error"
+        );
+
+        sendBtn.disabled = false;
+
+        sendBtn.textContent =
+            "Send Message";
+    }
+
+});
+
+
+// =============================
+// MESSAGE
+// =============================
+
+function showMessage(text, type) {
+
+    const box =
+        document.getElementById("resultMessage");
+
+    box.textContent = text;
+
+    box.className =
+        "message " + type;
+}
+
+
+function showError(text) {
+
+    document.getElementById("loading")
+        .textContent = text;
+}
+
+
+// =============================
+// START
+// =============================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadCar
+);
+
+</script>
+
+</body>
+</html>

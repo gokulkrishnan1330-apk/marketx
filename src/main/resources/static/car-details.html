@@ -1,0 +1,2818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Car Details | MarketX</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+
+            --bg: #05080d;
+            --panel: #0b111a;
+            --panel2: #101925;
+
+            --border: rgba(255,255,255,0.09);
+
+            --text: #f5f7fa;
+            --muted: #8c9aaa;
+
+            --blue: #298cff;
+            --cyan: #00d9ff;
+            --green: #31e89a;
+
+        }
+
+        body {
+
+            font-family:
+                Inter,
+                Arial,
+                sans-serif;
+
+            background:
+
+                radial-gradient(
+                    circle at 80% 0%,
+                    rgba(0,140,255,0.13),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(0,220,180,0.06),
+                    transparent 25%
+                ),
+
+                var(--bg);
+
+            color: var(--text);
+
+            min-height: 100vh;
+
+        }
+
+        button,
+        input {
+
+            font: inherit;
+
+        }
+
+        a {
+
+            text-decoration: none;
+            color: inherit;
+
+        }
+
+
+        /* =====================================
+           NAVBAR
+        ===================================== */
+
+        .navbar {
+
+            height: 76px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 5%;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            background:
+                rgba(5,8,13,0.82);
+
+            backdrop-filter: blur(18px);
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.07);
+
+        }
+
+        .logo {
+
+            font-size: 25px;
+
+            font-weight: 900;
+
+            letter-spacing: -1px;
+
+        }
+
+        .logo span {
+
+            color: var(--green);
+
+        }
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 32px;
+
+        }
+
+        .nav-links a {
+
+            color: #9da9b9;
+
+            font-size: 14px;
+
+            transition: .25s;
+
+        }
+
+        .nav-links a:hover {
+
+            color: white;
+
+        }
+
+        .nav-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: center;
+
+        }
+
+        .back-btn {
+
+            border:
+                1px solid var(--border);
+
+            background:
+                rgba(255,255,255,0.03);
+
+            color: white;
+
+            padding:
+                10px 17px;
+
+            border-radius: 25px;
+
+            cursor: pointer;
+
+        }
+
+        .login-btn {
+
+            border: none;
+
+            background: white;
+
+            color: #07101a;
+
+            padding:
+                11px 18px;
+
+            border-radius: 25px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+        }
+
+
+        /* =====================================
+           PAGE
+        ===================================== */
+
+        .page {
+
+            width:
+                min(1380px, 92%);
+
+            margin: auto;
+
+            padding:
+                35px 0 90px;
+
+        }
+
+
+        /* =====================================
+           BREADCRUMB
+        ===================================== */
+
+        .breadcrumb {
+
+            color: #758397;
+
+            font-size: 13px;
+
+            margin-bottom: 25px;
+
+        }
+
+        .breadcrumb span {
+
+            color: white;
+
+        }
+
+
+        /* =====================================
+           TOP TITLE
+        ===================================== */
+
+        .vehicle-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                flex-end;
+
+            gap: 25px;
+
+            margin-bottom: 25px;
+
+        }
+
+        .eyebrow {
+
+            color: var(--cyan);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 9px;
+
+        }
+
+        .vehicle-title {
+
+            font-size:
+                clamp(34px, 5vw, 58px);
+
+            line-height: 1;
+
+            letter-spacing: -2.5px;
+
+        }
+
+        .vehicle-title span {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #fff,
+                    #4bc9ff,
+                    #31e89a
+                );
+
+            -webkit-background-clip: text;
+
+            color: transparent;
+
+        }
+
+        .variant {
+
+            color: var(--muted);
+
+            margin-top: 10px;
+
+            font-size: 15px;
+
+        }
+
+        .header-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+        .icon-action {
+
+            width: 46px;
+
+            height: 46px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                rgba(255,255,255,0.04);
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+        }
+
+        .icon-action:hover {
+
+            border-color:
+                rgba(0,210,255,.45);
+
+        }
+
+
+        /* =====================================
+           MAIN GRID
+        ===================================== */
+
+        .main-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.6fr)
+                minmax(330px, .75fr);
+
+            gap: 25px;
+
+        }
+
+
+        /* =====================================
+           GALLERY
+        ===================================== */
+
+        .gallery {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111d2c,
+                    #070c13
+                );
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 25px;
+
+            overflow: hidden;
+
+            min-height: 550px;
+
+            position: relative;
+
+        }
+
+        .main-image {
+
+            height: 550px;
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+            background:
+
+                radial-gradient(
+                    circle at 50% 40%,
+                    rgba(50,130,255,.20),
+                    transparent 40%
+                ),
+
+                linear-gradient(
+                    145deg,
+                    #172536,
+                    #070b11
+                );
+
+        }
+
+        .main-image img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            display: none;
+
+        }
+
+        .image-overlay {
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    to top,
+                    rgba(0,0,0,.55),
+                    transparent 45%
+                );
+
+            pointer-events: none;
+
+        }
+
+        .available-badge {
+
+            position: absolute;
+
+            top: 20px;
+
+            left: 20px;
+
+            z-index: 5;
+
+            background:
+                rgba(20,220,145,.13);
+
+            color: var(--green);
+
+            border:
+                1px solid rgba(49,232,154,.35);
+
+            padding:
+                9px 13px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+        }
+
+        .gallery-count {
+
+            position: absolute;
+
+            right: 20px;
+
+            top: 20px;
+
+            background:
+                rgba(0,0,0,.4);
+
+            border:
+                1px solid rgba(255,255,255,.12);
+
+            padding:
+                9px 13px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            z-index: 5;
+
+        }
+
+
+        /* =====================================
+           FALLBACK CAR
+        ===================================== */
+
+        .fallback {
+
+            width: 100%;
+
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            position: relative;
+
+        }
+
+        .fallback-car {
+
+            width:
+                min(500px, 70%);
+
+            height: 170px;
+
+            border-radius:
+                110px 130px 40px 40px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #eef3fa,
+                    #7c8ca1 55%,
+                    #3b485a
+                );
+
+            position: relative;
+
+            box-shadow:
+                0 50px 100px rgba(0,0,0,.6);
+
+            transform:
+                perspective(500px)
+                rotateX(2deg);
+
+        }
+
+        .fallback-car::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 48%;
+
+            height: 95px;
+
+            left: 26%;
+
+            top: -62px;
+
+            border-radius:
+                90px 90px 5px 5px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #91a0b4,
+                    #354254
+                );
+
+        }
+
+        .fallback-car::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 70%;
+
+            height: 20px;
+
+            left: 15%;
+
+            bottom: 27px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(0,0,0,.18);
+
+        }
+
+        .wheel {
+
+            position: absolute;
+
+            width: 76px;
+
+            height: 76px;
+
+            bottom: -30px;
+
+            border-radius: 50%;
+
+            background: #020409;
+
+            border:
+                12px solid #17202d;
+
+        }
+
+        .wheel.left {
+
+            left: 12%;
+
+        }
+
+        .wheel.right {
+
+            right: 12%;
+
+        }
+
+
+        /* =====================================
+           PRICE CARD
+        ===================================== */
+
+        .info-column {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+
+        }
+
+        .price-card {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(18,30,46,.95),
+                    rgba(8,13,20,.95)
+                );
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 22px;
+
+            padding: 25px;
+
+        }
+
+        .price-label {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+        }
+
+        .price {
+
+            font-size: 39px;
+
+            font-weight: 900;
+
+            margin-top: 6px;
+
+        }
+
+        .price-note {
+
+            color: #718096;
+
+            font-size: 12px;
+
+            margin-top: 6px;
+
+        }
+
+        .location-line {
+
+            color: #9aa8ba;
+
+            margin-top: 17px;
+
+            font-size: 13px;
+
+        }
+
+        .contact-buttons {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+        }
+
+        .primary-btn {
+
+            border: none;
+
+            padding: 14px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #258cff,
+                    #00cfc0
+                );
+
+            color: white;
+
+            font-weight: 900;
+
+            cursor: pointer;
+
+        }
+
+        .secondary-btn {
+
+            border:
+                1px solid rgba(0,210,255,.25);
+
+            padding: 14px;
+
+            border-radius: 13px;
+
+            background:
+                rgba(0,170,255,.07);
+
+            color: #8eeaff;
+
+            font-weight: 900;
+
+            cursor: pointer;
+
+        }
+
+        .secondary-btn:hover,
+        .primary-btn:hover {
+
+            transform: translateY(-2px);
+
+        }
+
+
+        /* =====================================
+           QUICK SPECS
+        ===================================== */
+
+        .quick-specs {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+        }
+
+        .quick-spec {
+
+            padding: 14px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid rgba(255,255,255,.06);
+
+            border-radius: 13px;
+
+        }
+
+        .quick-spec-label {
+
+            color: #6f7d90;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+        }
+
+        .quick-spec-value {
+
+            margin-top: 5px;
+
+            font-weight: 800;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =====================================
+           SELLER CARD
+        ===================================== */
+
+        .seller-card {
+
+            background:
+                rgba(11,17,26,.95);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 22px;
+
+            padding: 23px;
+
+        }
+
+        .section-label {
+
+            color: #6f7f91;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            font-weight: 800;
+
+        }
+
+        .seller-row {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            margin-top: 17px;
+
+        }
+
+        .seller-avatar {
+
+            width: 48px;
+
+            height: 48px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #248cff,
+                    #31e89a
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #06101a;
+
+            font-weight: 900;
+
+            font-size: 17px;
+
+        }
+
+        .seller-name {
+
+            font-weight: 850;
+
+        }
+
+        .seller-role {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-top: 4px;
+
+        }
+
+        .seller-details {
+
+            margin-top: 18px;
+
+            padding-top: 18px;
+
+            border-top:
+                1px solid rgba(255,255,255,.07);
+
+            display: grid;
+
+            gap: 10px;
+
+        }
+
+        .seller-detail {
+
+            color: #a7b2c0;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =====================================
+           LOWER CONTENT
+        ===================================== */
+
+        .lower-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.6fr)
+                minmax(300px, .75fr);
+
+            gap: 25px;
+
+            margin-top: 25px;
+
+        }
+
+        .content-card {
+
+            background:
+                rgba(11,17,26,.92);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+        }
+
+        .content-card h2 {
+
+            font-size: 21px;
+
+        }
+
+        .description {
+
+            color: #a0adbd;
+
+            line-height: 1.8;
+
+            margin-top: 14px;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =====================================
+           FULL SPECIFICATION GRID
+        ===================================== */
+
+        .spec-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-top: 22px;
+
+        }
+
+        .spec-box {
+
+            padding: 17px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255,255,255,.03);
+
+            border:
+                1px solid rgba(255,255,255,.06);
+
+        }
+
+        .spec-box-label {
+
+            color: #6f7d90;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+        }
+
+        .spec-box-value {
+
+            margin-top: 7px;
+
+            font-weight: 800;
+
+        }
+
+
+        /* =====================================
+           TRUST CARD
+        ===================================== */
+
+        .trust-card {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(0,210,180,.08),
+                    rgba(0,120,255,.06)
+                );
+
+            border:
+                1px solid rgba(0,210,200,.16);
+
+        }
+
+        .trust-item {
+
+            display: flex;
+
+            gap: 12px;
+
+            padding: 15px 0;
+
+            border-bottom:
+                1px solid rgba(255,255,255,.06);
+
+        }
+
+        .trust-item:last-child {
+
+            border-bottom: none;
+
+        }
+
+        .trust-icon {
+
+            color: var(--green);
+
+            font-size: 17px;
+
+        }
+
+        .trust-text strong {
+
+            display: block;
+
+            font-size: 13px;
+
+        }
+
+        .trust-text span {
+
+            display: block;
+
+            color: #758397;
+
+            font-size: 11px;
+
+            margin-top: 4px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =====================================
+           LOADING
+        ===================================== */
+
+        .loading-page {
+
+            min-height: 70vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #8794a6;
+
+        }
+
+        .loader {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 50%;
+
+            border:
+                3px solid rgba(255,255,255,.1);
+
+            border-top-color:
+                var(--cyan);
+
+            animation:
+                spin .8s linear infinite;
+
+            margin-right: 13px;
+
+        }
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        /* =====================================
+           ERROR
+        ===================================== */
+
+        .error-page {
+
+            display: none;
+
+            text-align: center;
+
+            padding: 100px 20px;
+
+        }
+
+        .error-page h2 {
+
+            font-size: 30px;
+
+        }
+
+        .error-page p {
+
+            color: var(--muted);
+
+            margin-top: 10px;
+
+        }
+
+        .error-btn {
+
+            margin-top: 22px;
+
+            border: none;
+
+            background: white;
+
+            color: #07101a;
+
+            padding: 12px 22px;
+
+            border-radius: 25px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+        }
+
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 1000px) {
+
+            .main-grid,
+            .lower-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+            .info-column {
+
+                display: grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+
+            }
+
+            .seller-card {
+
+                height: fit-content;
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .navbar {
+
+                height: 68px;
+
+            }
+
+            .nav-links {
+
+                display: none;
+
+            }
+
+            .login-btn {
+
+                display: none;
+
+            }
+
+            .page {
+
+                width: 94%;
+
+            }
+
+            .vehicle-header {
+
+                align-items: flex-start;
+
+            }
+
+            .vehicle-title {
+
+                font-size: 38px;
+
+            }
+
+            .main-image {
+
+                height: 370px;
+
+            }
+
+            .gallery {
+
+                min-height: 370px;
+
+            }
+
+            .fallback-car {
+
+                width: 70%;
+
+                height: 100px;
+
+            }
+
+            .wheel {
+
+                width: 55px;
+
+                height: 55px;
+
+                bottom: -23px;
+
+                border-width: 8px;
+
+            }
+
+            .info-column {
+
+                display: flex;
+
+            }
+
+            .spec-grid {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+
+            }
+
+            .contact-buttons {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .back-btn {
+
+                padding: 9px 12px;
+
+                font-size: 12px;
+
+            }
+
+            .vehicle-title {
+
+                font-size: 34px;
+
+            }
+
+            .header-actions {
+
+                gap: 5px;
+
+            }
+
+            .icon-action {
+
+                width: 40px;
+
+                height: 40px;
+
+            }
+
+            .spec-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
+
+            }
+
+            .quick-specs {
+
+                grid-template-columns:
+                    1fr 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     NAVBAR
+========================================= -->
+
+<header class="navbar">
+
+    <a
+        href="index.html"
+        class="logo">
+
+        MARKET<span>X</span>
+
+    </a>
+
+
+    <nav class="nav-links">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="car-list.html">
+            Explore
+        </a>
+
+        <a href="index.html#why">
+            Why MarketX
+        </a>
+
+        <a href="add-car.html">
+            Sell
+        </a>
+
+    </nav>
+
+
+    <div class="nav-actions">
+
+        <button
+            class="back-btn"
+            onclick="goBack()">
+
+            ← Back
+
+        </button>
+
+        <button
+            class="login-btn"
+            onclick="window.location.href='login.html'">
+
+            Login
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================
+     LOADING
+========================================= -->
+
+<div
+    id="loadingPage"
+    class="loading-page">
+
+    <div class="loader"></div>
+
+    Loading vehicle...
+
+</div>
+
+
+<!-- =========================================
+     ERROR
+========================================= -->
+
+<div
+    id="errorPage"
+    class="error-page">
+
+    <h2>
+        Vehicle not found
+    </h2>
+
+    <p>
+        This car may have been removed or the link is invalid.
+    </p>
+
+    <button
+        class="error-btn"
+        onclick="window.location.href='car-list.html'">
+
+        Explore Other Cars
+
+    </button>
+
+</div>
+
+
+<!-- =========================================
+     MAIN PAGE
+========================================= -->
+
+<main
+    id="mainPage"
+    class="page"
+    style="display:none;">
+
+
+    <!-- BREADCRUMB -->
+
+    <div class="breadcrumb">
+
+        MarketX
+        &nbsp;/&nbsp;
+        Explore
+        &nbsp;/&nbsp;
+
+        <span id="breadcrumbName">
+            Vehicle
+        </span>
+
+    </div>
+
+
+    <!-- VEHICLE HEADER -->
+
+    <section class="vehicle-header">
+
+        <div>
+
+            <div class="eyebrow">
+                MARKETX VEHICLE
+            </div>
+
+            <h1
+                id="vehicleTitle"
+                class="vehicle-title">
+
+                Vehicle
+
+            </h1>
+
+            <div
+                id="vehicleVariant"
+                class="variant">
+
+                Premium Variant
+
+            </div>
+
+        </div>
+
+
+        <div class="header-actions">
+
+            <button
+                class="icon-action"
+                id="shareBtn"
+                title="Share">
+
+                ↗
+
+            </button>
+
+
+            <button
+                class="icon-action"
+                id="favoriteBtn"
+                title="Save">
+
+                ♡
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAIN -->
+
+    <section class="main-grid">
+
+
+        <!-- =================================
+             GALLERY
+        ================================= -->
+
+        <div class="gallery">
+
+            <div class="main-image">
+
+
+                <div
+                    id="fallback"
+                    class="fallback">
+
+                    <div class="fallback-car">
+
+                        <div class="wheel left"></div>
+
+                        <div class="wheel right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <img
+                    id="carImage"
+                    alt="Vehicle">
+
+
+                <div class="image-overlay"></div>
+
+
+                <div class="available-badge">
+
+                    ● AVAILABLE
+
+                </div>
+
+
+                <div
+                    id="galleryCount"
+                    class="gallery-count">
+
+                    MARKETX SELECT
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             RIGHT INFO
+        ================================= -->
+
+        <div class="info-column">
+
+
+            <!-- PRICE -->
+
+            <div class="price-card">
+
+                <div class="price-label">
+                    Listed Price
+                </div>
+
+                <div
+                    id="vehiclePrice"
+                    class="price">
+
+                    ₹0
+
+                </div>
+
+                <div class="price-note">
+
+                    MarketX listing price
+
+                </div>
+
+
+                <div
+                    id="vehicleLocation"
+                    class="location-line">
+
+                    ◉ Location
+
+                </div>
+
+
+                <div class="contact-buttons">
+
+                    <button
+                        id="callBtn"
+                        class="primary-btn">
+
+                        Call Seller
+
+                    </button>
+
+
+                    <button
+                        id="emailBtn"
+                        class="secondary-btn">
+
+                        Contact Seller
+
+                    </button>
+
+                </div>
+
+
+                <div class="quick-specs">
+
+
+                    <div class="quick-spec">
+
+                        <div class="quick-spec-label">
+                            Year
+                        </div>
+
+                        <div
+                            id="year"
+                            class="quick-spec-value">
+                            -
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-spec">
+
+                        <div class="quick-spec-label">
+                            Kilometers
+                        </div>
+
+                        <div
+                            id="km"
+                            class="quick-spec-value">
+                            -
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-spec">
+
+                        <div class="quick-spec-label">
+                            Fuel
+                        </div>
+
+                        <div
+                            id="fuel"
+                            class="quick-spec-value">
+                            -
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-spec">
+
+                        <div class="quick-spec-label">
+                            Transmission
+                        </div>
+
+                        <div
+                            id="transmission"
+                            class="quick-spec-value">
+                            -
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- SELLER -->
+
+            <div class="seller-card">
+
+                <div class="section-label">
+                    Seller
+                </div>
+
+
+                <div class="seller-row">
+
+                    <div
+                        id="sellerAvatar"
+                        class="seller-avatar">
+
+                        M
+
+                    </div>
+
+
+                    <div>
+
+                        <div
+                            id="sellerName"
+                            class="seller-name">
+
+                            MarketX Seller
+
+                        </div>
+
+                        <div class="seller-role">
+
+                            Verified marketplace seller
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="seller-details">
+
+                    <div
+                        id="sellerPhone"
+                        class="seller-detail">
+
+                        Phone not available
+
+                    </div>
+
+                    <div
+                        id="sellerEmail"
+                        class="seller-detail">
+
+                        Email not available
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         LOWER CONTENT
+    ========================================= -->
+
+    <section class="lower-grid">
+
+
+        <!-- DESCRIPTION + SPECS -->
+
+        <div class="content-card">
+
+            <h2>
+                Vehicle Overview
+            </h2>
+
+
+            <p
+                id="description"
+                class="description">
+
+                No description available.
+
+            </p>
+
+
+            <h2
+                style="margin-top:35px;">
+
+                Specifications
+
+            </h2>
+
+
+            <div class="spec-grid">
+
+
+                <div class="spec-box">
+
+                    <div class="spec-box-label">
+                        Brand
+                    </div>
+
+                    <div
+                        id="specBrand"
+                        class="spec-box-value">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="spec-box">
+
+                    <div class="spec-box-label">
+                        Model
+                    </div>
+
+                    <div
+                        id="specModel"
+                        class="spec-box-value">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="spec-box">
+
+                    <div class="spec-box-label">
+                        Variant
+                    </div>
+
+                    <div
+                        id="specVariant"
+                        class="spec-box-value">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="spec-box">
+
+                    <div class="spec-box-label">
+                        Manufacturing Year
+                    </div>
+
+                    <div
+                        id="specYear"
+                        class="spec-box-value">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="spec-box">
+
+                    <div class="spec-box-label">
+                        Kilometers Driven
+                    </div>
+
+                    <div
+                        id="specKm"
+                        class="spec-box-value">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="spec-box">
+
+                    <div class="spec-box-label">
+                        Fuel Type
+                    </div>
+
+                    <div
+                        id="specFuel"
+                        class="spec-box-value">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="spec-box">
+
+                    <div class="spec-box-label">
+                        Transmission
+                    </div>
+
+                    <div
+                        id="specTransmission"
+                        class="spec-box-value">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="spec-box">
+
+                    <div class="spec-box-label">
+                        Location
+                    </div>
+
+                    <div
+                        id="specLocation"
+                        class="spec-box-value">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="spec-box">
+
+                    <div class="spec-box-label">
+                        Listing ID
+                    </div>
+
+                    <div
+                        id="specId"
+                        class="spec-box-value">
+                        -
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- TRUST -->
+
+        <div
+            class="content-card trust-card">
+
+            <div class="section-label">
+                MarketX Confidence
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    ✓
+                </div>
+
+                <div class="trust-text">
+
+                    <strong>
+                        Direct Seller Connection
+                    </strong>
+
+                    <span>
+                        Contact the seller directly
+                        using the available listing information.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    ✓
+                </div>
+
+                <div class="trust-text">
+
+                    <strong>
+                        Transparent Listing
+                    </strong>
+
+                    <span>
+                        Vehicle specifications and
+                        listed price are shown clearly.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    ✓
+                </div>
+
+                <div class="trust-text">
+
+                    <strong>
+                        Real Marketplace Data
+                    </strong>
+
+                    <span>
+                        This page loads the vehicle
+                        information from your MarketX backend.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    ✓
+                </div>
+
+                <div class="trust-text">
+
+                    <strong>
+                        Shop With Confidence
+                    </strong>
+
+                    <span>
+                        Always inspect the vehicle and
+                        verify its documents before purchase.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    const API_URL = "/api/cars";
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const carId =
+        params.get("id");
+
+
+    let currentCar = null;
+
+    let currentSeller = null;
+
+
+    /* =====================================
+       START
+    ===================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            if (!carId) {
+
+                showError();
+
+                return;
+
+            }
+
+            loadCar();
+
+        }
+    );
+
+
+    /* =====================================
+       LOAD CAR
+    ===================================== */
+
+    async function loadCar() {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${carId}`
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Car not found"
+                );
+
+            }
+
+
+            currentCar =
+                await response.json();
+
+
+            renderCar(
+                currentCar
+            );
+
+
+            loadSeller();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            showError();
+
+        }
+
+    }
+
+
+    /* =====================================
+       RENDER CAR
+    ===================================== */
+
+    function renderCar(car) {
+
+
+        const brand =
+            car.brand || "Car";
+
+
+        const model =
+            car.model || "";
+
+
+        const variant =
+            car.variant ||
+            "Premium Variant";
+
+
+        const fullName =
+            `${brand} ${model}`;
+
+
+        document.title =
+            `${fullName} | MarketX`;
+
+
+        document.getElementById(
+            "vehicleTitle"
+        ).innerHTML =
+
+            `${escapeHtml(brand)}
+             <span>${escapeHtml(model)}</span>`;
+
+
+        document.getElementById(
+            "breadcrumbName"
+        ).textContent =
+            fullName;
+
+
+        document.getElementById(
+            "vehicleVariant"
+        ).textContent =
+            variant;
+
+
+        document.getElementById(
+            "vehiclePrice"
+        ).textContent =
+            formatPrice(car.price);
+
+
+        document.getElementById(
+            "vehicleLocation"
+        ).textContent =
+            `◉ ${car.location || "Location unavailable"}`;
+
+
+        document.getElementById(
+            "year"
+        ).textContent =
+            car.manufacturingYear || "-";
+
+
+        document.getElementById(
+            "km"
+        ).textContent =
+            formatNumber(
+                car.kilometersDriven
+            );
+
+
+        document.getElementById(
+            "fuel"
+        ).textContent =
+            car.fuelType || "-";
+
+
+        document.getElementById(
+            "transmission"
+        ).textContent =
+            car.transmission || "-";
+
+
+        document.getElementById(
+            "description"
+        ).textContent =
+            car.description ||
+            "The seller has not provided a detailed description for this vehicle.";
+
+
+        /* SPECIFICATIONS */
+
+        setText(
+            "specBrand",
+            car.brand
+        );
+
+        setText(
+            "specModel",
+            car.model
+        );
+
+        setText(
+            "specVariant",
+            car.variant
+        );
+
+        setText(
+            "specYear",
+            car.manufacturingYear
+        );
+
+        setText(
+            "specKm",
+            formatNumber(
+                car.kilometersDriven
+            )
+        );
+
+        setText(
+            "specFuel",
+            car.fuelType
+        );
+
+        setText(
+            "specTransmission",
+            car.transmission
+        );
+
+        setText(
+            "specLocation",
+            car.location
+        );
+
+        setText(
+            "specId",
+            `#${car.id}`
+        );
+
+
+        /* IMAGE */
+
+        if (car.image) {
+
+            const image =
+                document.getElementById(
+                    "carImage"
+                );
+
+
+            image.src =
+                car.image;
+
+
+            image.style.display =
+                "block";
+
+
+            document.getElementById(
+                "fallback"
+            ).style.display =
+                "none";
+
+
+            image.onerror =
+                function() {
+
+                    image.style.display =
+                        "none";
+
+                    document.getElementById(
+                        "fallback"
+                    ).style.display =
+                        "flex";
+
+                };
+
+        }
+
+
+        document.getElementById(
+            "mainPage"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "loadingPage"
+        ).style.display =
+            "none";
+
+
+        setupButtons();
+
+    }
+
+
+    /* =====================================
+       LOAD SELLER
+    ===================================== */
+
+    async function loadSeller() {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${carId}/seller`
+                );
+
+
+            if (!response.ok) {
+
+                return;
+
+            }
+
+
+            currentSeller =
+                await response.json();
+
+
+            renderSeller(
+                currentSeller
+            );
+
+
+        } catch (error) {
+
+            console.log(
+                "Seller information unavailable"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================
+       RENDER SELLER
+    ===================================== */
+
+    function renderSeller(seller) {
+
+
+        const name =
+            seller.name ||
+            seller.username ||
+            seller.email ||
+            "MarketX Seller";
+
+
+        document.getElementById(
+            "sellerName"
+        ).textContent =
+            name;
+
+
+        document.getElementById(
+            "sellerAvatar"
+        ).textContent =
+            name
+                .charAt(0)
+                .toUpperCase();
+
+
+        if (seller.phone) {
+
+            document.getElementById(
+                "sellerPhone"
+            ).textContent =
+                `☎ ${seller.phone}`;
+
+        }
+
+
+        if (seller.email) {
+
+            document.getElementById(
+                "sellerEmail"
+            ).textContent =
+                `✉ ${seller.email}`;
+
+        }
+
+    }
+
+
+    /* =====================================
+       BUTTONS
+    ===================================== */
+
+    function setupButtons() {
+
+
+        document.getElementById(
+            "callBtn"
+        ).onclick =
+            function() {
+
+                if (
+                    currentSeller &&
+                    currentSeller.phone
+                ) {
+
+                    window.location.href =
+                        `tel:${currentSeller.phone}`;
+
+                } else {
+
+                    alert(
+                        "Seller phone number is not available."
+                    );
+
+                }
+
+            };
+
+
+        document.getElementById(
+            "emailBtn"
+        ).onclick =
+            function() {
+
+                if (
+                    currentSeller &&
+                    currentSeller.email
+                ) {
+
+                    const subject =
+                        encodeURIComponent(
+                            `Interested in ${currentCar.brand} ${currentCar.model}`
+                        );
+
+
+                    window.location.href =
+                        `mailto:${currentSeller.email}?subject=${subject}`;
+
+                } else {
+
+                    alert(
+                        "Seller email is not available."
+                    );
+
+                }
+
+            };
+
+
+        document.getElementById(
+            "favoriteBtn"
+        ).onclick =
+            function() {
+
+                const button =
+                    this;
+
+
+                if (
+                    button.textContent.trim()
+                    === "♡"
+                ) {
+
+                    button.textContent =
+                        "♥";
+
+                    button.style.color =
+                        "#31e89a";
+
+                } else {
+
+                    button.textContent =
+                        "♡";
+
+                    button.style.color =
+                        "white";
+
+                }
+
+            };
+
+
+        document.getElementById(
+            "shareBtn"
+        ).onclick =
+            shareVehicle;
+
+    }
+
+
+    /* =====================================
+       SHARE
+    ===================================== */
+
+    async function shareVehicle() {
+
+
+        const shareData = {
+
+            title:
+                `${currentCar.brand} ${currentCar.model} | MarketX`,
+
+            text:
+                `Check out this ${currentCar.brand} ${currentCar.model} on MarketX.`,
+
+            url:
+                window.location.href
+
+        };
+
+
+        try {
+
+            if (
+                navigator.share
+            ) {
+
+                await navigator.share(
+                    shareData
+                );
+
+            } else {
+
+                await navigator.clipboard.writeText(
+                    window.location.href
+                );
+
+                alert(
+                    "Vehicle link copied."
+                );
+
+            }
+
+        } catch (error) {
+
+            console.log(
+                "Share cancelled"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================
+       BACK
+    ===================================== */
+
+    function goBack() {
+
+        if (
+            document.referrer &&
+            document.referrer.includes(
+                window.location.host
+            )
+        ) {
+
+            history.back();
+
+        } else {
+
+            window.location.href =
+                "car-list.html";
+
+        }
+
+    }
+
+
+    /* =====================================
+       ERROR
+    ===================================== */
+
+    function showError() {
+
+        document.getElementById(
+            "loadingPage"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "mainPage"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "errorPage"
+        ).style.display =
+            "block";
+
+    }
+
+
+    /* =====================================
+       PRICE
+    ===================================== */
+
+    function formatPrice(price) {
+
+        const value =
+            Number(price || 0);
+
+
+        if (
+            value >= 10000000
+        ) {
+
+            return "₹" +
+                (
+                    value / 10000000
+                )
+                .toFixed(2)
+                .replace(".00", "") +
+                " Cr";
+
+        }
+
+
+        if (
+            value >= 100000
+        ) {
+
+            return "₹" +
+                (
+                    value / 100000
+                )
+                .toFixed(2)
+                .replace(".00", "") +
+                " L";
+
+        }
+
+
+        return "₹" +
+            value.toLocaleString(
+                "en-IN"
+            );
+
+    }
+
+
+    /* =====================================
+       NUMBER
+    ===================================== */
+
+    function formatNumber(value) {
+
+        if (
+            value === null ||
+            value === undefined ||
+            value === ""
+        ) {
+
+            return "-";
+
+        }
+
+
+        return Number(value)
+            .toLocaleString(
+                "en-IN"
+            ) + " km";
+
+    }
+
+
+    /* =====================================
+       SET TEXT
+    ===================================== */
+
+    function setText(
+        id,
+        value
+    ) {
+
+        document.getElementById(
+            id
+        ).textContent =
+            value ||
+            "-";
+
+    }
+
+
+    /* =====================================
+       ESCAPE HTML
+    ===================================== */
+
+    function escapeHtml(value) {
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+</script>
+
+</body>
+
+</html>

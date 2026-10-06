@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - MarketX</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            background: #f4f6f8;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .profile-page {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #111827, #1f2937);
+            color: white;
+            border-radius: 18px;
+            padding: 35px;
+            margin-bottom: 25px;
+        }
+
+        .profile-header h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
+        }
+
+        .profile-header p {
+            margin: 0;
+            color: #cbd5e1;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .profile-card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #111827;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #111827;
+            font-weight: 600;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .profile-actions {
+            display: grid;
+            gap: 12px;
+        }
+
+        .profile-actions a,
+        .profile-actions button {
+            display: block;
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: none;
+            text-align: center;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .cars-btn {
+            background: #111827;
+            color: white;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .home-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .logout-btn-profile {
+            background: #dc2626;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            font-size: 18px;
+        }
+
+        .error-box {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 750px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-page {
+                margin: 20px auto;
+            }
+
+            .profile-header h1 {
+                font-size: 26px;
+            }
+        }.profile-btn {
+    background: #7c3aed;
+    color: white;
+}
+
+.profile-btn:hover {
+    background: #6d28d9;
+}
+.inquiries-btn {
+    background: #0f766e;
+    color: white;
+}
+    </style>
+</head>
+
+<body>
+
+<div class="profile-page">
+
+    <div id="loading" class="loading">
+        Loading profile...
+    </div>
+
+    <div id="profileContent" style="display:none;">
+
+        <div class="profile-header">
+            <h1 id="welcomeName">Welcome</h1>
+            <p>Your MarketX account</p>
+        </div>
+
+        <div class="profile-grid">
+
+            <!-- USER INFORMATION -->
+            <div class="profile-card">
+
+                <h2>Account Information</h2>
+
+                <div class="info-row">
+                    <span class="info-label">Name</span>
+                    <span class="info-value" id="userName">-</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Email</span>
+                    <span class="info-value" id="userEmail">-</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Phone</span>
+                    <span class="info-value" id="userPhone">-</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">User ID</span>
+                    <span class="info-value" id="userId">-</span>
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="profile-card">
+
+                <h2>Quick Actions</h2>
+
+                <div class="profile-actions">
+                    <a href="edit-profile.html" class="profile-btn">
+    Edit Profile
+</a>
+
+                    <a href="my-cars.html" class="cars-btn">
+                        My Cars
+                    </a>
+
+                    <a href="add-car.html" class="add-btn">
+                        Add New Car
+                    </a>
+
+                    <a href="car-list.html" class="home-btn">
+                        Browse Cars
+                    </a>
+                    <a
+    href="my-inquiries.html"
+    class="inquiries-btn"
+>
+    My Inquiries
+</a>
+
+                    <a href="index.html" class="home-btn">
+                        Home
+                    </a>
+
+                    <button
+                        class="logout-btn-profile"
+                        onclick="logoutUser()">
+                        Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="errorBox" style="display:none;" class="error-box">
+        <h3>You are not logged in</h3>
+        <p>Please login to view your profile.</p>
+
+        <a href="login.html">
+            Go to Login
+        </a>
+    </div>
+
+</div>
+
+
+<script>
+
+async function loadProfile() {
+
+    try {
+
+        const response = await fetch("/api/users/me", {
+            method: "GET",
+            credentials: "include",
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("errorBox").style.display = "block";
+
+            return;
+        }
+
+        const user = await response.json();
+
+        console.log("Logged-in user:", user);
+
+        document.getElementById("userName").textContent =
+            user.name || user.username || "Not available";
+
+        document.getElementById("userEmail").textContent =
+            user.email || "Not available";
+
+        document.getElementById("userPhone").textContent =
+            user.phone || "Not available";
+
+        document.getElementById("userId").textContent =
+            user.id || "Not available";
+
+        const displayName =
+            user.name ||
+            user.username ||
+            user.email?.split("@")[0] ||
+            "User";
+
+        document.getElementById("welcomeName").textContent =
+            "Welcome, " + displayName;
+
+        document.getElementById("loading").style.display = "none";
+
+        document.getElementById("profileContent").style.display = "block";
+
+    } catch (error) {
+
+        console.error("Profile loading error:", error);
+
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("errorBox").style.display = "block";
+    }
+}
+
+
+async function logoutUser() {
+
+    try {
+
+        const response = await fetch("/api/users/logout", {
+            method: "POST",
+            credentials: "include"
+        });
+
+        if (response.ok) {
+
+            localStorage.removeItem("marketxUser");
+
+            window.location.href = "login.html";
+
+        } else {
+
+            alert("Logout failed.");
+
+        }
+
+    } catch (error) {
+
+        console.error("Logout error:", error);
+
+        alert("Something went wrong while logging out.");
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", loadProfile);
+
+</script>
+
+</body>
+</html>

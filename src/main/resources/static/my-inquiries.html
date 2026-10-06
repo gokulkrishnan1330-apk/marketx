@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Inquiries - MarketX</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+            background: #f4f6f8;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .inquiries-page {
+            max-width: 1200px;
+            margin: 45px auto;
+            padding: 20px;
+        }
+
+        .page-header {
+            background: linear-gradient(
+                135deg,
+                #111827,
+                #1f2937
+            );
+
+            color: white;
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+
+            font-size: 32px;
+        }
+
+        .page-header p {
+            margin: 0;
+
+            color: #cbd5e1;
+        }
+
+        .section {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,.07);
+        }
+
+        .section-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+
+            color: #111827;
+        }
+
+        .count {
+            background: #e5e7eb;
+
+            color: #374151;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+        .inquiry-list {
+            display: grid;
+
+            gap: 15px;
+        }
+
+        .inquiry-card {
+            border: 1px solid #e5e7eb;
+
+            border-radius: 14px;
+
+            padding: 20px;
+
+            background: #fafafa;
+        }
+
+        .inquiry-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 15px;
+        }
+
+        .inquiry-title {
+            font-size: 18px;
+
+            font-weight: 700;
+
+            color: #111827;
+        }
+
+        .status {
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            background: #dbeafe;
+
+            color: #1d4ed8;
+        }
+
+        .status.CONTACTED {
+            background: #fef3c7;
+
+            color: #92400e;
+        }
+
+        .status.CLOSED {
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+        .inquiry-info {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            background: white;
+
+            border-radius: 9px;
+
+            padding: 10px;
+
+            border: 1px solid #e5e7eb;
+        }
+
+        .info-label {
+            display: block;
+
+            color: #6b7280;
+
+            font-size: 12px;
+
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            color: #111827;
+
+            font-weight: 600;
+
+            word-break: break-word;
+        }
+
+        .inquiry-message {
+            background: white;
+
+            border-left: 4px solid #2563eb;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            color: #374151;
+
+            line-height: 1.6;
+
+            margin-bottom: 15px;
+        }
+
+        .inquiry-date {
+            color: #6b7280;
+
+            font-size: 13px;
+
+            margin-bottom: 15px;
+        }
+
+        .status-controls {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .status-controls select {
+            padding: 9px 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            background: white;
+
+            cursor: pointer;
+        }
+
+        .update-btn {
+            padding: 9px 15px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #111827;
+
+            color: white;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .update-btn:hover {
+            background: #374151;
+        }
+
+        .empty {
+            text-align: center;
+
+            padding: 35px 20px;
+
+            color: #6b7280;
+        }
+
+        .empty h3 {
+            color: #374151;
+
+            margin-bottom: 8px;
+        }
+
+        .browse-btn {
+            display: inline-block;
+
+            margin-top: 10px;
+
+            padding: 11px 18px;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 9px;
+
+            font-weight: 600;
+        }
+
+        .loading {
+            text-align: center;
+
+            padding: 60px;
+
+            color: #374151;
+
+            font-size: 18px;
+        }
+
+        .error-box {
+            background: #fee2e2;
+
+            color: #991b1b;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            text-align: center;
+        }
+
+        .top-actions {
+            display: flex;
+
+            gap: 10px;
+
+            margin-bottom: 20px;
+        }
+
+        .top-actions a,
+        .refresh-btn {
+            padding: 11px 16px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: #e5e7eb;
+
+            color: #111827;
+        }
+
+        .refresh-btn {
+            background: #111827;
+
+            color: white;
+        }
+
+        @media (max-width: 700px) {
+
+            .inquiries-page {
+                margin: 20px auto;
+
+                padding: 15px;
+            }
+
+            .page-header {
+                padding: 25px;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .inquiry-info {
+                grid-template-columns: 1fr;
+            }
+
+            .inquiry-top {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .status-controls {
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+            .status-controls select,
+            .update-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="inquiries-page">
+
+
+    <!-- TOP ACTIONS -->
+
+    <div class="top-actions">
+
+        <a
+            href="profile.html"
+            class="back-btn"
+        >
+            ← Profile
+        </a>
+
+        <button
+            class="refresh-btn"
+            onclick="loadAllInquiries()"
+        >
+            Refresh
+        </button>
+
+    </div>
+
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <h1>
+            My Inquiries
+        </h1>
+
+        <p>
+            Manage your buyer and seller conversations.
+        </p>
+
+    </div>
+
+
+    <!-- LOADING -->
+
+    <div
+        id="loading"
+        class="loading"
+    >
+        Loading inquiries...
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+        id="errorBox"
+        class="error-box"
+        style="display:none;"
+    ></div>
+
+
+    <!-- CONTENT -->
+
+    <div
+        id="inquiryContent"
+        style="display:none;"
+    >
+
+
+        <!-- SENT -->
+
+        <div class="section">
+
+            <div class="section-header">
+
+                <h2>
+                    Messages I Sent
+                </h2>
+
+                <span
+                    id="sentCount"
+                    class="count"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div
+                id="sentList"
+                class="inquiry-list"
+            ></div>
+
+        </div>
+
+
+        <!-- RECEIVED -->
+
+        <div class="section">
+
+            <div class="section-header">
+
+                <h2>
+                    Messages I Received
+                </h2>
+
+                <span
+                    id="receivedCount"
+                    class="count"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div
+                id="receivedList"
+                class="inquiry-list"
+            ></div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+// ==================================================
+// LOAD ALL INQUIRIES
+// ==================================================
+
+async function loadAllInquiries() {
+
+    document.getElementById(
+        "loading"
+    ).style.display = "block";
+
+    document.getElementById(
+        "errorBox"
+    ).style.display = "none";
+
+    document.getElementById(
+        "inquiryContent"
+    ).style.display = "none";
+
+
+    try {
+
+        const [
+            sentResponse,
+            receivedResponse
+        ] = await Promise.all([
+
+            fetch(
+                "/api/inquiries/sent?t=" +
+                Date.now(),
+                {
+                    method: "GET",
+                    credentials: "include",
+                    cache: "no-store"
+                }
+            ),
+
+            fetch(
+                "/api/inquiries/received?t=" +
+                Date.now(),
+                {
+                    method: "GET",
+                    credentials: "include",
+                    cache: "no-store"
+                }
+            )
+
+        ]);
+
+
+        // ==============================
+        // LOGIN CHECK
+        // ==============================
+
+        if (
+            sentResponse.status === 401 ||
+            sentResponse.status === 403 ||
+            receivedResponse.status === 401 ||
+            receivedResponse.status === 403
+        ) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        if (
+            !sentResponse.ok ||
+            !receivedResponse.ok
+        ) {
+
+            throw new Error(
+                "Unable to load inquiries."
+            );
+
+        }
+
+
+        const sent =
+            await sentResponse.json();
+
+        const received =
+            await receivedResponse.json();
+
+
+        console.log(
+            "Sent inquiries:",
+            sent
+        );
+
+        console.log(
+            "Received inquiries:",
+            received
+        );
+
+
+        renderSentInquiries(sent);
+
+        renderReceivedInquiries(received);
+
+
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "inquiryContent"
+        ).style.display = "block";
+
+
+    } catch (error) {
+
+        console.error(
+            "Inquiry loading error:",
+            error
+        );
+
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+
+        const errorBox =
+            document.getElementById(
+                "errorBox"
+            );
+
+        errorBox.textContent =
+            "Unable to load inquiries. Please try again.";
+
+        errorBox.style.display =
+            "block";
+
+    }
+
+}
+
+
+// ==================================================
+// RENDER SENT
+// ==================================================
+
+function renderSentInquiries(inquiries) {
+
+    const list =
+        document.getElementById(
+            "sentList"
+        );
+
+    document.getElementById(
+        "sentCount"
+    ).textContent =
+        inquiries.length;
+
+
+    list.innerHTML = "";
+
+
+    if (
+        !inquiries ||
+        inquiries.length === 0
+    ) {
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                <h3>
+                    No messages sent yet
+                </h3>
+
+                <p>
+                    Contact a seller to start a conversation.
+                </p>
+
+                <a
+                    href="car-list.html"
+                    class="browse-btn"
+                >
+                    Browse Cars
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    inquiries.forEach(
+        function(inquiry) {
+
+            list.appendChild(
+                createInquiryCard(
+                    inquiry,
+                    false
+                )
+            );
+
+        }
+    );
+
+}
+
+
+// ==================================================
+// RENDER RECEIVED
+// ==================================================
+
+function renderReceivedInquiries(inquiries) {
+
+    const list =
+        document.getElementById(
+            "receivedList"
+        );
+
+    document.getElementById(
+        "receivedCount"
+    ).textContent =
+        inquiries.length;
+
+
+    list.innerHTML = "";
+
+
+    if (
+        !inquiries ||
+        inquiries.length === 0
+    ) {
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                <h3>
+                    No messages received
+                </h3>
+
+                <p>
+                    Buyer inquiries about your cars will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    inquiries.forEach(
+        function(inquiry) {
+
+            list.appendChild(
+                createInquiryCard(
+                    inquiry,
+                    true
+                )
+            );
+
+        }
+    );
+
+}
+
+
+// ==================================================
+// CREATE CARD
+// ==================================================
+
+function createInquiryCard(
+    inquiry,
+    isReceived
+) {
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+    card.className =
+        "inquiry-card";
+
+
+    const status =
+        String(
+            inquiry.status || "NEW"
+        ).toUpperCase();
+
+
+    const safeStatus =
+        escapeHTML(status);
+
+
+    const date =
+        formatDate(
+            inquiry.createdAt
+        );
+
+
+    let controls = "";
+
+
+    // Seller can update status
+    if (isReceived) {
+
+        controls = `
+
+            <div class="status-controls">
+
+                <select
+                    id="status-${inquiry.id}"
+                >
+
+                    <option
+                        value="NEW"
+                        ${status === "NEW" ? "selected" : ""}
+                    >
+                        NEW
+                    </option>
+
+                    <option
+                        value="CONTACTED"
+                        ${status === "CONTACTED" ? "selected" : ""}
+                    >
+                        CONTACTED
+                    </option>
+
+                    <option
+                        value="CLOSED"
+                        ${status === "CLOSED" ? "selected" : ""}
+                    >
+                        CLOSED
+                    </option>
+
+                </select>
+
+                <button
+                    class="update-btn"
+                    onclick="updateInquiryStatus(${inquiry.id})"
+                >
+                    Update Status
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+
+    const personLabel =
+        isReceived
+            ? "Buyer ID"
+            : "Seller ID";
+
+
+    const personId =
+        isReceived
+            ? inquiry.buyerId
+            : inquiry.sellerId;
+
+
+    card.innerHTML = `
+
+        <div class="inquiry-top">
+
+            <div class="inquiry-title">
+
+                ${isReceived
+                    ? "Buyer Inquiry"
+                    : "Seller Inquiry"}
+
+            </div>
+
+            <span
+                class="status ${safeStatus}"
+            >
+                ${safeStatus}
+            </span>
+
+        </div>
+
+
+        <div class="inquiry-info">
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Car ID
+                </span>
+
+                <span class="info-value">
+                    ${escapeHTML(inquiry.carId)}
+                </span>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    ${personLabel}
+                </span>
+
+                <span class="info-value">
+                    ${escapeHTML(personId)}
+                </span>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Inquiry ID
+                </span>
+
+                <span class="info-value">
+                    ${escapeHTML(inquiry.id)}
+                </span>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Status
+                </span>
+
+                <span class="info-value">
+                    ${safeStatus}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="inquiry-message">
+
+            ${escapeHTML(
+                inquiry.message || ""
+            )}
+
+        </div>
+
+
+        <div class="inquiry-date">
+
+            Sent:
+            ${escapeHTML(date)}
+
+        </div>
+
+
+        ${controls}
+
+    `;
+
+
+    return card;
+}
+
+
+// ==================================================
+// UPDATE STATUS
+// ==================================================
+
+async function updateInquiryStatus(
+    inquiryId
+) {
+
+    const select =
+        document.getElementById(
+            "status-" + inquiryId
+        );
+
+
+    const status =
+        select.value;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/inquiries/" +
+                inquiryId +
+                "/status",
+                {
+
+                    method: "PUT",
+
+                    credentials: "include",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        status: status
+                    })
+
+                }
+            );
+
+
+        const result =
+            await response.text();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            alert(
+                "You are not authorized to update this inquiry."
+            );
+
+            return;
+        }
+
+
+        if (!response.ok) {
+
+            alert(
+                result ||
+                "Unable to update status."
+            );
+
+            return;
+        }
+
+
+        alert(
+            "Inquiry status updated successfully."
+        );
+
+
+        loadAllInquiries();
+
+
+    } catch (error) {
+
+        console.error(
+            "Status update error:",
+            error
+        );
+
+        alert(
+            "Unable to update inquiry status."
+        );
+
+    }
+
+}
+
+
+// ==================================================
+// DATE FORMAT
+// ==================================================
+
+function formatDate(
+    value
+) {
+
+    if (!value) {
+
+        return "Not available";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return value;
+
+    }
+
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }
+    );
+
+}
+
+
+// ==================================================
+// HTML ESCAPE
+// ==================================================
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+// ==================================================
+// START
+// ==================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadAllInquiries
+);
+
+</script>
+
+
+</body>
+
+</html>

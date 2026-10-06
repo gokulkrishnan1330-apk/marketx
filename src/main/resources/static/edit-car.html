@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Listing | MarketX</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #172033 0, transparent 35%),
+                #070b12;
+            color: #f5f7fb;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 72px;
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(7,11,18,0.88);
+            backdrop-filter: blur(16px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #7c9cff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #aab3c5;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .nav-btn {
+            padding: 10px 17px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+        }
+
+        /* PAGE */
+
+        .page {
+            width: min(1180px, 92%);
+            margin: 45px auto 80px;
+        }
+
+        .breadcrumb {
+            color: #8993a8;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb span {
+            color: #d9deea;
+        }
+
+        .heading {
+            margin-bottom: 32px;
+        }
+
+        .heading h1 {
+            font-size: clamp(30px, 4vw, 46px);
+            line-height: 1.05;
+            letter-spacing: -1.8px;
+            margin-bottom: 12px;
+        }
+
+        .heading p {
+            color: #8f99ad;
+            max-width: 700px;
+            line-height: 1.7;
+        }
+
+        /* LAYOUT */
+
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 1.7fr 0.8fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .panel {
+            background: rgba(16,22,34,0.92);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.28);
+        }
+
+        .panel-header {
+            padding: 25px 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .panel-header h2 {
+            font-size: 19px;
+            margin-bottom: 6px;
+        }
+
+        .panel-header p {
+            color: #7f899d;
+            font-size: 13px;
+        }
+
+        .panel-body {
+            padding: 28px;
+        }
+
+        /* FORM */
+
+        .section {
+            margin-bottom: 34px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #e8ecf5;
+            margin-bottom: 17px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 17px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            color: #9ba5b9;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.09);
+            background: #0b101a;
+            color: white;
+            border-radius: 11px;
+            padding: 13px 14px;
+            outline: none;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #566174;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #6e8dff;
+            box-shadow: 0 0 0 3px rgba(110,141,255,0.10);
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        /* PRICE */
+
+        .price-wrap {
+            position: relative;
+        }
+
+        .price-symbol {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8994aa;
+            font-weight: 700;
+        }
+
+        .price-input {
+            padding-left: 32px;
+        }
+
+        /* PREVIEW */
+
+        .preview {
+            position: sticky;
+            top: 100px;
+        }
+
+        .preview-card {
+            border-radius: 18px;
+            overflow: hidden;
+            background: #0b1019;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .preview-image {
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(135deg, #111a2a, #202b3e);
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .preview-placeholder {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #657188;
+            font-size: 13px;
+        }
+
+        .preview-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 7px 10px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+        }
+
+        .preview-content {
+            padding: 21px;
+        }
+
+        .preview-brand {
+            color: #8994aa;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .preview-title {
+            font-size: 23px;
+            margin-top: 5px;
+            font-weight: 750;
+        }
+
+        .preview-variant {
+            color: #858fa2;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .preview-price {
+            font-size: 25px;
+            font-weight: 800;
+            margin-top: 18px;
+        }
+
+        .preview-meta {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 9px;
+            margin-top: 18px;
+        }
+
+        .meta-box {
+            background: #111824;
+            border-radius: 10px;
+            padding: 11px;
+        }
+
+        .meta-label {
+            color: #69758a;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .meta-value {
+            font-size: 12px;
+            color: #dce2ec;
+        }
+
+        /* ACTIONS */
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        button {
+            border: 0;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+        }
+
+        .save-btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 11px;
+            background: #f2f5fa;
+            color: #090d15;
+            transition: 0.2s;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-1px);
+            background: white;
+        }
+
+        .cancel-btn {
+            padding: 15px 22px;
+            border-radius: 11px;
+            background: #151c29;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #d9deea;
+        }
+
+        .cancel-btn:hover {
+            background: #1b2433;
+        }
+
+        .status {
+            margin-top: 17px;
+            font-size: 13px;
+            text-align: center;
+            min-height: 18px;
+        }
+
+        .status.success {
+            color: #79d6a3;
+        }
+
+        .status.error {
+            color: #ff7e8c;
+        }
+
+        /* SIDE INFO */
+
+        .info-box {
+            margin-top: 18px;
+            padding: 17px;
+            border-radius: 13px;
+            background: #0c121d;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .info-box h3 {
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .info-box p {
+            color: #7f899d;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* LOADING */
+
+        .loading {
+            position: fixed;
+            inset: 0;
+            background: rgba(4,7,12,0.88);
+            backdrop-filter: blur(7px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .loading-box {
+            background: #101724;
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 25px 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .loading-box p {
+            color: #9aa4b8;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        .spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid #303a4b;
+            border-top-color: #8aa2ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .editor-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .preview {
+                position: static;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .page {
+                width: 94%;
+                margin-top: 30px;
+            }
+
+            .panel-body,
+            .panel-header {
+                padding: 21px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .cancel-btn {
+                width: 100%;
+            }
+
+            .preview-image {
+                height: 190px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="loading" id="loadingScreen">
+    <div class="loading-box">
+        <div class="spinner"></div>
+        <p>Loading listing...</p>
+    </div>
+</div>
+
+<header class="navbar">
+
+    <a href="index.html" class="logo">
+        Market<span>X</span>
+    </a>
+
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="car-list.html">Explore</a>
+        <a href="my-cars.html">My Cars</a>
+        <a href="add-car.html" class="nav-btn">Sell a Car</a>
+    </nav>
+
+</header>
+
+
+<main class="page">
+
+    <div class="breadcrumb">
+        My Cars / <span>Edit Listing</span>
+    </div>
+
+    <div class="heading">
+
+        <h1>Edit your listing.</h1>
+
+        <p>
+            Update the vehicle information below and keep your MarketX
+            listing accurate for buyers.
+        </p>
+
+    </div>
+
+
+    <div class="editor-layout">
+
+        <!-- LEFT -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <h2>Vehicle Information</h2>
+
+                <p>
+                    Make changes to the details of your vehicle.
+                </p>
+
+            </div>
+
+
+            <div class="panel-body">
+
+                <form id="editCarForm">
+
+                    <!-- BASIC -->
+
+                    <div class="section">
+
+                        <div class="section-title">
+                            Basic Information
+                        </div>
+
+                        <div class="grid">
+
+                            <div class="field">
+
+                                <label>Brand</label>
+
+                                <select id="brand" required>
+                                    <option value="">Select brand</option>
+                                    <option>Tata</option>
+                                    <option>Hyundai</option>
+                                    <option>Maruti Suzuki</option>
+                                    <option>Mahindra</option>
+                                    <option>Toyota</option>
+                                    <option>Honda</option>
+                                    <option>Kia</option>
+                                    <option>Ford</option>
+                                    <option>Volkswagen</option>
+                                    <option>Skoda</option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label>Model</label>
+
+                                <select id="model" required>
+                                    <option value="">Select model</option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label>Variant</label>
+
+                                <input
+                                    type="text"
+                                    id="variant"
+                                    placeholder="Example: SX(O)"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label>Manufacturing Year</label>
+
+                                <input
+                                    type="number"
+                                    id="manufacturingYear"
+                                    min="1990"
+                                    max="2035"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ENGINE -->
+
+                    <div class="section">
+
+                        <div class="section-title">
+                            Vehicle Details
+                        </div>
+
+                        <div class="grid">
+
+                            <div class="field">
+
+                                <label>Fuel Type</label>
+
+                                <select id="fuelType" required>
+
+                                    <option value="">
+                                        Select fuel
+                                    </option>
+
+                                    <option>Petrol</option>
+                                    <option>Diesel</option>
+                                    <option>Electric</option>
+                                    <option>Hybrid</option>
+                                    <option>CNG</option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label>Transmission</label>
+
+                                <select id="transmission" required>
+
+                                    <option value="">
+                                        Select transmission
+                                    </option>
+
+                                    <option>Manual</option>
+                                    <option>Automatic</option>
+                                    <option>AMT</option>
+                                    <option>CVT</option>
+                                    <option>DCT</option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label>Kilometers Driven</label>
+
+                                <input
+                                    type="number"
+                                    id="kilometersDriven"
+                                    min="0"
+                                    placeholder="Example: 25000"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label>Location</label>
+
+                                <input
+                                    type="text"
+                                    id="location"
+                                    placeholder="Example: Salem"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="section">
+
+                        <div class="section-title">
+                            Pricing
+                        </div>
+
+                        <div class="grid">
+
+                            <div class="field">
+
+                                <label>Expected Price</label>
+
+                                <div class="price-wrap">
+
+                                    <span class="price-symbol">
+                                        ₹
+                                    </span>
+
+                                    <input
+                                        type="number"
+                                        id="price"
+                                        class="price-input"
+                                        min="1"
+                                        placeholder="1800000"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="section">
+
+                        <div class="section-title">
+                            Description
+                        </div>
+
+                        <div class="grid">
+
+                            <div class="field full">
+
+                                <label>
+                                    Vehicle Description
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    placeholder="Describe the condition, service history, important features, ownership details, etc."
+                                ></textarea>
+
+                            </div>
+
+
+                            <div class="field full">
+
+                                <label>
+                                    Main Image URL
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="image"
+                                    placeholder="https://example.com/car.jpg"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            type="button"
+                            class="cancel-btn"
+                            onclick="goBack()"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="save-btn"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+
+                    <div id="status" class="status"></div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT PREVIEW -->
+
+        <aside class="preview">
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h2>Live Preview</h2>
+
+                    <p>
+                        This is how your listing will appear.
+                    </p>
+
+                </div>
+
+
+                <div class="panel-body">
+
+                    <div class="preview-card">
+
+                        <div class="preview-image">
+
+                            <img id="previewImage">
+
+                            <div
+                                class="preview-placeholder"
+                                id="previewPlaceholder"
+                            >
+                                Vehicle image
+                            </div>
+
+                            <div class="preview-badge">
+                                MARKETX LISTING
+                            </div>
+
+                        </div>
+
+
+                        <div class="preview-content">
+
+                            <div
+                                class="preview-brand"
+                                id="previewBrand"
+                            >
+                                BRAND
+                            </div>
+
+                            <div
+                                class="preview-title"
+                                id="previewTitle"
+                            >
+                                Your Car
+                            </div>
+
+                            <div
+                                class="preview-variant"
+                                id="previewVariant"
+                            >
+                                Variant
+                            </div>
+
+                            <div
+                                class="preview-price"
+                                id="previewPrice"
+                            >
+                                ₹0
+                            </div>
+
+
+                            <div class="preview-meta">
+
+                                <div class="meta-box">
+
+                                    <div class="meta-label">
+                                        Year
+                                    </div>
+
+                                    <div
+                                        class="meta-value"
+                                        id="previewYear"
+                                    >
+                                        —
+                                    </div>
+
+                                </div>
+
+
+                                <div class="meta-box">
+
+                                    <div class="meta-label">
+                                        KM
+                                    </div>
+
+                                    <div
+                                        class="meta-value"
+                                        id="previewKm"
+                                    >
+                                        —
+                                    </div>
+
+                                </div>
+
+
+                                <div class="meta-box">
+
+                                    <div class="meta-label">
+                                        Fuel
+                                    </div>
+
+                                    <div
+                                        class="meta-value"
+                                        id="previewFuel"
+                                    >
+                                        —
+                                    </div>
+
+                                </div>
+
+
+                                <div class="meta-box">
+
+                                    <div class="meta-label">
+                                        Location
+                                    </div>
+
+                                    <div
+                                        class="meta-value"
+                                        id="previewLocation"
+                                    >
+                                        —
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <h3>
+                            Keep your listing accurate
+                        </h3>
+
+                        <p>
+                            Accurate vehicle details help buyers understand
+                            your car quickly and make your listing more
+                            trustworthy.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<script>
+
+const API_URL = "/api/cars";
+
+const params = new URLSearchParams(window.location.search);
+
+const carId = params.get("id");
+
+const brandModels = {
+
+    "Tata": [
+        "Nexon",
+        "Punch",
+        "Harrier",
+        "Safari"
+    ],
+
+    "Hyundai": [
+        "Creta",
+        "Venue",
+        "i20",
+        "Verna"
+    ],
+
+    "Maruti Suzuki": [
+        "Swift",
+        "Baleno",
+        "Brezza",
+        "Grand Vitara"
+    ],
+
+    "Mahindra": [
+        "Thar",
+        "XUV700",
+        "Scorpio",
+        "XUV 3XO"
+    ],
+
+    "Toyota": [
+        "Fortuner",
+        "Innova",
+        "Hyryder",
+        "Glanza"
+    ],
+
+    "Honda": [
+        "City",
+        "Amaze",
+        "Elevate"
+    ],
+
+    "Kia": [
+        "Seltos",
+        "Sonet",
+        "Carens"
+    ],
+
+    "Ford": [
+        "EcoSport",
+        "Endeavour",
+        "Figo"
+    ],
+
+    "Volkswagen": [
+        "Virtus",
+        "Taigun",
+        "Polo"
+    ],
+
+    "Skoda": [
+        "Slavia",
+        "Kushaq",
+        "Kodiaq"
+    ]
+
+};
+
+
+const brand = document.getElementById("brand");
+const model = document.getElementById("model");
+
+const variant =
+    document.getElementById("variant");
+
+const year =
+    document.getElementById("manufacturingYear");
+
+const fuel =
+    document.getElementById("fuelType");
+
+const transmission =
+    document.getElementById("transmission");
+
+const kilometers =
+    document.getElementById("kilometersDriven");
+
+const locationInput =
+    document.getElementById("location");
+
+const price =
+    document.getElementById("price");
+
+const description =
+    document.getElementById("description");
+
+const image =
+    document.getElementById("image");
+
+const statusBox =
+    document.getElementById("status");
+
+const loading =
+    document.getElementById("loadingScreen");
+
+
+/* MODEL DROPDOWN */
+
+brand.addEventListener("change", function () {
+
+    const selectedBrand = brand.value;
+
+    model.innerHTML =
+        '<option value="">Select model</option>';
+
+    if (!brandModels[selectedBrand]) {
+        return;
+    }
+
+    brandModels[selectedBrand].forEach(function(carModel) {
+
+        const option =
+            document.createElement("option");
+
+        option.value = carModel;
+        option.textContent = carModel;
+
+        model.appendChild(option);
+
+    });
+
+});
+
+
+/* LOAD CAR */
+
+async function loadCar() {
+
+    if (!carId) {
+
+        showError(
+            "Car ID is missing. Please open Edit from My Cars."
+        );
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(`${API_URL}/${carId}`);
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load vehicle."
+            );
+
+        }
+
+        const car =
+            await response.json();
+
+        populateForm(car);
+
+    } catch (error) {
+
+        console.error(error);
+
+        showError(
+            "Unable to load this listing."
+        );
+
+    } finally {
+
+        loading.style.display = "none";
+
+    }
+
+}
+
+
+/* POPULATE */
+
+function populateForm(car) {
+
+    brand.value =
+        car.brand || "";
+
+    populateModels(
+        car.brand,
+        car.model
+    );
+
+    variant.value =
+        car.variant || "";
+
+    year.value =
+        car.manufacturingYear || "";
+
+    fuel.value =
+        car.fuelType || "";
+
+    transmission.value =
+        car.transmission || "";
+
+    kilometers.value =
+        car.kilometersDriven || "";
+
+    locationInput.value =
+        car.location || "";
+
+    price.value =
+        car.price || "";
+
+    description.value =
+        car.description || "";
+
+    image.value =
+        car.image || "";
+
+    updatePreview();
+
+}
+
+
+/* POPULATE MODEL */
+
+function populateModels(
+    selectedBrand,
+    selectedModel
+) {
+
+    model.innerHTML =
+        '<option value="">Select model</option>';
+
+    if (!brandModels[selectedBrand]) {
+        return;
+    }
+
+    brandModels[selectedBrand].forEach(
+        function(carModel) {
+
+            const option =
+                document.createElement("option");
+
+            option.value = carModel;
+
+            option.textContent =
+                carModel;
+
+            if (carModel === selectedModel) {
+                option.selected = true;
+            }
+
+            model.appendChild(option);
+
+        }
+    );
+
+}
+
+
+/* UPDATE PREVIEW */
+
+function updatePreview() {
+
+    const selectedBrand =
+        brand.value || "BRAND";
+
+    const selectedModel =
+        model.value || "Your Car";
+
+    const selectedVariant =
+        variant.value || "Variant";
+
+    const selectedYear =
+        year.value || "—";
+
+    const selectedKm =
+        kilometers.value
+            ? Number(kilometers.value).toLocaleString("en-IN")
+            : "—";
+
+    const selectedFuel =
+        fuel.value || "—";
+
+    const selectedLocation =
+        locationInput.value || "—";
+
+    const selectedPrice =
+        price.value
+            ? "₹" +
+              Number(price.value)
+                  .toLocaleString("en-IN")
+            : "₹0";
+
+
+    document.getElementById(
+        "previewBrand"
+    ).textContent =
+        selectedBrand;
+
+    document.getElementById(
+        "previewTitle"
+    ).textContent =
+        selectedModel;
+
+    document.getElementById(
+        "previewVariant"
+    ).textContent =
+        selectedVariant;
+
+    document.getElementById(
+        "previewYear"
+    ).textContent =
+        selectedYear;
+
+    document.getElementById(
+        "previewKm"
+    ).textContent =
+        selectedKm;
+
+    document.getElementById(
+        "previewFuel"
+    ).textContent =
+        selectedFuel;
+
+    document.getElementById(
+        "previewLocation"
+    ).textContent =
+        selectedLocation;
+
+    document.getElementById(
+        "previewPrice"
+    ).textContent =
+        selectedPrice;
+
+
+    updatePreviewImage();
+
+}
+
+
+/* IMAGE PREVIEW */
+
+function updatePreviewImage() {
+
+    const imageUrl =
+        image.value.trim();
+
+    const previewImage =
+        document.getElementById(
+            "previewImage"
+        );
+
+    const placeholder =
+        document.getElementById(
+            "previewPlaceholder"
+        );
+
+    if (!imageUrl) {
+
+        previewImage.style.display =
+            "none";
+
+        placeholder.style.display =
+            "flex";
+
+        return;
+    }
+
+    previewImage.src = imageUrl;
+
+    previewImage.onload =
+        function() {
+
+            previewImage.style.display =
+                "block";
+
+            placeholder.style.display =
+                "none";
+
+        };
+
+    previewImage.onerror =
+        function() {
+
+            previewImage.style.display =
+                "none";
+
+            placeholder.style.display =
+                "flex";
+
+        };
+
+}
+
+
+/* LIVE PREVIEW EVENTS */
+
+[
+    brand,
+    model,
+    variant,
+    year,
+    fuel,
+    transmission,
+    kilometers,
+    locationInput,
+    price,
+    description,
+    image
+].forEach(function(element) {
+
+    element.addEventListener(
+        "input",
+        updatePreview
+    );
+
+    element.addEventListener(
+        "change",
+        updatePreview
+    );
+
+});
+
+
+/* SAVE */
+
+document.getElementById(
+    "editCarForm"
+).addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        statusBox.className =
+            "status";
+
+        statusBox.textContent =
+            "Saving changes...";
+
+
+        const updatedCar = {
+
+            brand: brand.value,
+
+            model: model.value,
+
+            variant: variant.value,
+
+            manufacturingYear:
+                Number(year.value),
+
+            fuelType: fuel.value,
+
+            transmission:
+                transmission.value,
+
+            kilometersDriven:
+                Number(kilometers.value),
+
+            location:
+                locationInput.value,
+
+            price:
+                Number(price.value),
+
+            description:
+                description.value,
+
+            image:
+                image.value
+
+        };
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${carId}`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        credentials: "include",
+
+                        body:
+                            JSON.stringify(updatedCar)
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                const errorText =
+                    await response.text();
+
+                throw new Error(
+                    errorText ||
+                    "Unable to update listing."
+                );
+
+            }
+
+
+            statusBox.className =
+                "status success";
+
+            statusBox.textContent =
+                "Listing updated successfully.";
+
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        `car-details.html?id=${carId}`;
+
+                },
+                700
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            statusBox.className =
+                "status error";
+
+            if (
+                error.message.includes(
+                    "Seller access required"
+                )
+            ) {
+
+                statusBox.textContent =
+                    "Seller access required.";
+
+            } else {
+
+                statusBox.textContent =
+                    error.message ||
+                    "Unable to update listing.";
+
+            }
+
+        }
+
+    }
+);
+
+
+/* CANCEL */
+
+function goBack() {
+
+    window.location.href =
+        "my-cars.html";
+
+}
+
+
+/* ERROR */
+
+function showError(message) {
+
+    loading.style.display =
+        "none";
+
+    statusBox.className =
+        "status error";
+
+    statusBox.textContent =
+        message;
+
+}
+
+
+/* START */
+
+loadCar();
+
+</script>
+
+</body>
+</html>

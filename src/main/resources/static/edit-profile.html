@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Profile - MarketX</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+            background: #f4f6f8;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .edit-container {
+            max-width: 650px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .edit-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .edit-card h1 {
+            margin: 0 0 10px;
+            color: #111827;
+            font-size: 30px;
+        }
+
+        .edit-card > p {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            box-sizing: border-box;
+            background: #fff;
+            color: #111827;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        .form-group input:disabled {
+            background: #f3f4f6;
+            cursor: not-allowed;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        .save-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+        }
+
+        .save-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .save-btn:disabled {
+            background: #93c5fd;
+            cursor: not-allowed;
+        }
+
+        .cancel-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .cancel-btn:hover {
+            background: #d1d5db;
+        }
+
+        .message {
+            display: none;
+            margin-top: 20px;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #374151;
+            font-size: 18px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+
+            .edit-container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .edit-card {
+                padding: 25px;
+            }
+
+            .edit-card h1 {
+                font-size: 25px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="edit-container">
+
+    <a href="profile.html" class="back-link">
+        ← Back to Profile
+    </a>
+
+    <div id="loading" class="loading">
+        Loading your profile...
+    </div>
+
+
+    <div id="editCard" class="edit-card" style="display: none;">
+
+        <h1>Edit Profile</h1>
+
+        <p>
+            Update your MarketX account information.
+        </p>
+
+
+        <form id="profileForm">
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your name"
+                    required
+                    maxlength="100"
+                >
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                    maxlength="150"
+                >
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="button-row">
+
+                <a
+                    href="profile.html"
+                    class="cancel-btn">
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    id="saveBtn"
+                    class="save-btn">
+                    Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <div id="message" class="message"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let currentUser = null;
+
+
+/* ==============================
+   LOAD CURRENT USER
+   ============================== */
+
+async function loadUser() {
+
+    try {
+
+        const response = await fetch("/api/users/me", {
+
+            method: "GET",
+
+            credentials: "include",
+
+            cache: "no-store"
+
+        });
+
+
+        if (response.status === 401 ||
+            response.status === 403) {
+
+            window.location.href = "login.html";
+
+            return;
+        }
+
+
+        if (!response.ok) {
+
+            showError(
+                "Unable to load your profile."
+            );
+
+            return;
+        }
+
+
+        currentUser = await response.json();
+
+        console.log(
+            "Current user:",
+            currentUser
+        );
+
+
+        /* Fill form */
+
+        document.getElementById("name").value =
+            currentUser.name || "";
+
+
+        document.getElementById("email").value =
+            currentUser.email || "";
+
+
+        /* Show page */
+
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "editCard"
+        ).style.display = "block";
+
+
+    } catch (error) {
+
+        console.error(
+            "Profile loading error:",
+            error
+        );
+
+        showError(
+            "Unable to connect to MarketX."
+        );
+
+    }
+
+}
+
+
+/* ==============================
+   UPDATE PROFILE
+   ============================== */
+
+document.getElementById(
+    "profileForm"
+).addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const name =
+            document.getElementById(
+                "name"
+            ).value.trim();
+
+
+        const email =
+            document.getElementById(
+                "email"
+            ).value.trim();
+
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        const saveBtn =
+            document.getElementById(
+                "saveBtn"
+            );
+
+
+        /* Validation */
+
+        if (!name) {
+
+            showMessage(
+                "Please enter your name.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!email) {
+
+            showMessage(
+                "Please enter your email.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        /* Disable button */
+
+        saveBtn.disabled = true;
+
+        saveBtn.textContent =
+            "Saving...";
+
+
+        try {
+
+            const response = await fetch(
+                "/api/users/profile",
+                {
+
+                    method: "PUT",
+
+                    credentials: "include",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        name: name,
+
+                        email: email
+
+                    })
+
+                }
+            );
+
+
+            const result =
+                await response.text();
+
+
+            console.log(
+                "Update response:",
+                result
+            );
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    result ||
+                    "Profile update failed.",
+                    "error"
+                );
+
+                saveBtn.disabled = false;
+
+                saveBtn.textContent =
+                    "Save Changes";
+
+                return;
+            }
+
+
+            /* Convert response */
+
+            let updatedUser;
+
+            try {
+
+                updatedUser =
+                    JSON.parse(result);
+
+            } catch {
+
+                updatedUser = {
+                    name: name,
+                    email: email
+                };
+
+            }
+
+
+            /* Update localStorage */
+
+            localStorage.setItem(
+                "marketxUser",
+                JSON.stringify(
+                    updatedUser
+                )
+            );
+
+
+            /* Success */
+
+            showMessage(
+                "Profile updated successfully!",
+                "success"
+            );
+
+
+            saveBtn.textContent =
+                "Saved";
+
+
+            /* Return to profile */
+
+            setTimeout(function() {
+
+                window.location.href =
+                    "profile.html";
+
+            }, 1200);
+
+
+        } catch (error) {
+
+            console.error(
+                "Update error:",
+                error
+            );
+
+
+            showMessage(
+                "Unable to update profile. Please try again.",
+                "error"
+            );
+
+
+            saveBtn.disabled = false;
+
+            saveBtn.textContent =
+                "Save Changes";
+
+        }
+
+    }
+);
+
+
+/* ==============================
+   SHOW MESSAGE
+   ============================== */
+
+function showMessage(
+    text,
+    type
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.textContent = text;
+
+    message.className =
+        "message " + type;
+
+}
+
+
+/* ==============================
+   INITIALIZE
+   ============================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadUser
+);
+
+</script>
+
+</body>
+
+</html>

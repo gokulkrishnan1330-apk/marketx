@@ -1,0 +1,603 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MarketX Admin Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            MARKETX
+        </div>
+
+        <div class="nav-links">
+
+            <a href="admin-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="index.html">
+                Website
+            </a>
+
+            <a href="#" onclick="adminLogout(); return false;">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="admin-dashboard">
+
+        <div class="admin-header">
+
+            <h1>
+                Admin Dashboard
+            </h1>
+
+            <p>
+                Welcome to the MarketX administration panel.
+            </p>
+
+        </div>
+
+
+        <!-- ADMIN STATS -->
+
+        <section class="admin-stats">
+
+            <div class="admin-stat-card">
+
+                <h3>
+                    Total Users
+                </h3>
+
+                <p id="totalUsers">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <h3>
+                    Total Cars
+                </h3>
+
+                <p id="totalCars">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <h3>
+                    Favorites
+                </h3>
+
+                <p id="totalFavorites">
+                    0
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ADMIN ACTIONS -->
+
+        <section class="admin-actions">
+
+
+            <!-- MANAGE USERS -->
+
+            <div class="admin-action-card">
+
+                <h2>
+                    Manage Users
+                </h2>
+
+                <p>
+                    View and manage registered MarketX users.
+                </p>
+
+                <button onclick="viewUsers()">
+                    MANAGE USERS
+                </button>
+
+            </div>
+
+
+            <!-- MANAGE CARS -->
+
+            <div class="admin-action-card">
+
+                <h2>
+                    Manage Cars
+                </h2>
+
+                <p>
+                    View, edit and delete car listings.
+                </p>
+
+                <button onclick="viewCars()">
+                    MANAGE CARS
+                </button>
+
+            </div>
+
+
+            <!-- WEBSITE -->
+
+            <div class="admin-action-card">
+
+                <h2>
+                    Website
+                </h2>
+
+                <p>
+                    Open the public MarketX website.
+                </p>
+
+                <button onclick="openWebsite()">
+                    OPEN WEBSITE
+                </button>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- RECENT CARS -->
+
+        <section class="recent-section">
+
+            <h2>
+                Recent Cars
+            </h2>
+
+            <div id="recentCars">
+                Loading...
+            </div>
+
+        </section>
+
+    </main>
+
+
+<script>
+
+
+/* =====================================================
+   CHECK ADMIN AUTHENTICATION
+   ===================================================== */
+
+async function checkAdminAccess() {
+
+    try {
+
+        const response = await fetch(
+            "/api/admin/me",
+            {
+                method: "GET",
+
+                credentials: "same-origin",
+
+                cache: "no-store"
+            }
+        );
+
+
+        /*
+         * If Spring Security says the user is
+         * not authenticated, redirect to login.
+         */
+
+        if (!response.ok) {
+
+            localStorage.removeItem(
+                "marketxAdmin"
+            );
+
+            window.location.href =
+                "admin-login.html";
+
+            return false;
+        }
+
+
+        const adminUsername =
+            await response.text();
+
+
+        /*
+         * Backend currently returns:
+         *
+         * admin username
+         *
+         * OR
+         *
+         * Not authenticated.
+         */
+
+        if (
+            !adminUsername ||
+            adminUsername === "Not authenticated."
+        ) {
+
+            localStorage.removeItem(
+                "marketxAdmin"
+            );
+
+            window.location.href =
+                "admin-login.html";
+
+            return false;
+        }
+
+
+        /*
+         * Authentication successful.
+         */
+
+        return true;
+
+
+    } catch (error) {
+
+        console.error(
+            "Admin authentication check failed:",
+            error
+        );
+
+
+        localStorage.removeItem(
+            "marketxAdmin"
+        );
+
+
+        window.location.href =
+            "admin-login.html";
+
+
+        return false;
+    }
+}
+
+
+
+/* =====================================================
+   LOAD DASHBOARD
+   ===================================================== */
+
+async function loadDashboard() {
+
+    try {
+
+
+        /* GET USERS */
+
+        const usersResponse =
+            await fetch(
+                "/api/users?t=" + Date.now(),
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        /* GET CARS */
+
+        const carsResponse =
+            await fetch(
+                "/api/cars?t=" + Date.now(),
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        let users = [];
+
+        let cars = [];
+
+
+        /* USERS */
+
+        if (usersResponse.ok) {
+
+            users =
+                await usersResponse.json();
+
+        }
+
+
+        /* CARS */
+
+        if (carsResponse.ok) {
+
+            cars =
+                await carsResponse.json();
+
+        }
+
+
+        /* TOTAL USERS */
+
+        document.getElementById(
+            "totalUsers"
+        ).textContent =
+            users.length;
+
+
+        /* TOTAL CARS */
+
+        document.getElementById(
+            "totalCars"
+        ).textContent =
+            cars.length;
+
+
+        /* FAVORITES */
+
+        /*
+         * Favorites are currently handled
+         * on the frontend, so we keep the
+         * existing value as 0.
+         */
+
+        document.getElementById(
+            "totalFavorites"
+        ).textContent =
+            0;
+
+
+        /* RECENT CARS */
+
+        loadRecentCars(cars);
+
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+
+        document.getElementById(
+            "recentCars"
+        ).innerHTML =
+            "<p>Unable to load dashboard data.</p>";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD RECENT CARS
+   ===================================================== */
+
+function loadRecentCars(cars) {
+
+    const container =
+        document.getElementById(
+            "recentCars"
+        );
+
+
+    if (!cars.length) {
+
+        container.innerHTML =
+            "<p>No cars available.</p>";
+
+        return;
+    }
+
+
+    /*
+     * Show latest 5 cars.
+     */
+
+    container.innerHTML =
+        cars
+            .slice(-5)
+            .reverse()
+            .map(car => `
+
+                <div class="recent-car">
+
+                    <strong>
+                        ${escapeHtml(
+                            car.brand || ""
+                        )}
+                        ${escapeHtml(
+                            car.model || ""
+                        )}
+                    </strong>
+
+                    <span>
+                        ₹${Number(
+                            car.price || 0
+                        ).toLocaleString("en-IN")}
+                    </span>
+
+                </div>
+
+            `)
+            .join("");
+
+}
+
+
+
+/* =====================================================
+   VIEW USERS
+   ===================================================== */
+
+function viewUsers() {
+
+    window.location.href =
+        "admin-users.html";
+
+}
+
+
+
+/* =====================================================
+   VIEW CARS
+   ===================================================== */
+
+function viewCars() {
+
+    window.location.href =
+        "admin-cars.html";
+
+}
+
+
+
+/* =====================================================
+   OPEN WEBSITE
+   ===================================================== */
+
+function openWebsite() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+
+/* =====================================================
+   ADMIN LOGOUT
+   ===================================================== */
+
+async function adminLogout() {
+
+    try {
+
+        await fetch(
+            "/api/admin/logout",
+            {
+                method: "POST",
+
+                credentials: "same-origin"
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+
+    } finally {
+
+
+        /*
+         * Remove frontend admin information.
+         */
+
+        localStorage.removeItem(
+            "marketxAdmin"
+        );
+
+
+        /*
+         * Return to admin login.
+         */
+
+        window.location.href =
+            "admin-login.html";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+   ===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+
+/* =====================================================
+   PAGE START
+   ===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+
+        /*
+         * First check the real Spring Security
+         * authentication session.
+         */
+
+        const isAdmin =
+            await checkAdminAccess();
+
+
+        /*
+         * Stop loading dashboard if
+         * authentication failed.
+         */
+
+        if (!isAdmin) {
+
+            return;
+
+        }
+
+
+        /*
+         * Admin is authenticated.
+         * Now load dashboard data.
+         */
+
+        await loadDashboard();
+
+    }
+);
+
+
+</script>
+
+</body>
+
+</html>

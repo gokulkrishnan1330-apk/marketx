@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Manage Users - MarketX</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .admin-users-section {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .users-count {
+            margin-bottom: 25px;
+            color: #AAB5AE;
+        }
+
+        .admin-user-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+
+            background: #111513;
+
+            border: 1px solid #26332D;
+
+            border-radius: 15px;
+
+            padding: 22px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.25);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .admin-user-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .admin-user-info h2 {
+            margin: 0 0 10px;
+
+            color: #F5F7F5;
+        }
+
+        .admin-user-info p {
+            margin: 6px 0;
+
+            color: #AAB5AE;
+        }
+
+        .user-id {
+            color: #D4AF37 !important;
+        }
+
+        .delete-user-btn {
+            background: #8B1E1E;
+
+            color: white;
+
+            border: none;
+
+            padding: 12px 18px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            transition:
+                transform 0.3s ease,
+                background 0.3s ease;
+        }
+
+        .delete-user-btn:hover {
+            background: #B52A2A;
+
+            transform: translateY(-2px);
+        }
+
+        .loading-message,
+        .empty-message,
+        .error-message {
+            text-align: center;
+
+            padding: 40px;
+
+            color: #AAB5AE;
+        }
+
+        .back-dashboard {
+            display: inline-block;
+
+            margin-top: 10px;
+
+            color: #D4AF37;
+
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .admin-user-card {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .delete-user-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+        MARKETX
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="admin-dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="index.html">
+            Website
+        </a>
+
+        <a
+            href="#"
+            onclick="adminLogout(); return false;"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<main class="admin-dashboard">
+
+
+    <div class="admin-header">
+
+        <h1>
+            Manage Users
+        </h1>
+
+        <p>
+            View and manage registered MarketX users.
+        </p>
+
+        <a
+            href="admin-dashboard.html"
+            class="back-dashboard"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+
+    <section class="admin-users-section">
+
+
+        <div id="usersCount"
+             class="users-count">
+
+            Loading users...
+
+        </div>
+
+
+        <div id="usersContainer">
+
+            <div class="loading-message">
+                Loading users...
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<script>
+
+
+/* =========================================
+   ADMIN LOGIN CHECK
+========================================= */
+
+
+const admin =
+    localStorage.getItem(
+        "marketxAdmin"
+    );
+
+
+if (!admin) {
+
+    window.location.href =
+        "admin-login.html";
+
+}
+
+
+
+/* =========================================
+   LOAD USERS
+========================================= */
+
+
+async function loadUsers() {
+
+    const container =
+        document.getElementById(
+            "usersContainer"
+        );
+
+
+    const usersCount =
+        document.getElementById(
+            "usersCount"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/users?t=" +
+                Date.now()
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load users"
+            );
+
+        }
+
+
+        const users =
+            await response.json();
+
+
+        usersCount.textContent =
+            "Total Users: " +
+            users.length;
+
+
+        if (
+            !users ||
+            users.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="empty-message">
+
+                    <h3>
+                        No Users Found
+                    </h3>
+
+                    <p>
+                        There are no registered users.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+
+        container.innerHTML =
+            users.map(
+                function (user) {
+
+                    return `
+
+                        <div
+                            class="admin-user-card"
+                        >
+
+                            <div
+                                class="admin-user-info"
+                            >
+
+                                <h2>
+                                    ${escapeHtml(
+                                        user.name ||
+                                        "Unknown User"
+                                    )}
+                                </h2>
+
+
+                                <p>
+                                    Email:
+                                    ${escapeHtml(
+                                        user.email ||
+                                        "-"
+                                    )}
+                                </p>
+
+
+                                <p
+                                    class="user-id"
+                                >
+                                    User ID:
+                                    ${user.id}
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                class="delete-user-btn"
+                                onclick="
+                                    deleteUser(
+                                        ${user.id}
+                                    )
+                                "
+                            >
+                                DELETE USER
+                            </button>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "User loading error:",
+            error
+        );
+
+
+        usersCount.textContent =
+            "Unable to load users.";
+
+
+        container.innerHTML = `
+
+            <div class="error-message">
+
+                <h3>
+                    Unable to Load Users
+                </h3>
+
+                <p>
+                    Make sure Spring Boot
+                    and MySQL are running.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =========================================
+   DELETE USER
+========================================= */
+
+
+async function deleteUser(id) {
+
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this user?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                "/api/users/" + id,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const result =
+            await response.text();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result ||
+                "Unable to delete user."
+            );
+
+        }
+
+
+        alert(result);
+
+
+        loadUsers();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete user error:",
+            error
+        );
+
+
+        alert(
+            "Unable to delete user."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================
+   ADMIN LOGOUT
+========================================= */
+
+
+async function logout() {
+
+    try {
+
+        await fetch("/api/admin/logout", {
+            method: "POST",
+            credentials: "same-origin"
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+    } finally {
+
+        localStorage.removeItem(
+            "marketxAdmin"
+        );
+
+        window.location.href =
+            "admin-login.html";
+    }
+}
+
+
+
+/* =========================================
+   HTML SAFETY
+========================================= */
+
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+
+/* =========================================
+   START
+========================================= */
+
+
+if (admin) {
+
+    loadUsers();
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

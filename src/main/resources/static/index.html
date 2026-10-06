@@ -1,0 +1,3691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="MarketX - A modern marketplace to discover, compare and sell cars.">
+
+    <title>MarketX | Find Your Next Car</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* =========================================================
+           MARKETX 2.0
+           PREMIUM AUTOMOTIVE HOMEPAGE
+           ========================================================= */
+
+        :root {
+            --mx-bg: #05070b;
+            --mx-bg-2: #080c14;
+            --mx-card: rgba(255,255,255,0.055);
+            --mx-card-hover: rgba(255,255,255,0.085);
+            --mx-border: rgba(255,255,255,0.10);
+            --mx-border-hover: rgba(96,165,250,0.40);
+
+            --mx-white: #ffffff;
+            --mx-text: #e2e8f0;
+            --mx-muted: #8b98aa;
+
+            --mx-blue: #3b82f6;
+            --mx-blue-light: #60a5fa;
+            --mx-cyan: #22d3ee;
+            --mx-green: #22c55e;
+
+            --mx-shadow:
+                0 25px 80px rgba(0,0,0,0.40);
+        }
+
+
+        /* =========================================================
+           RESET
+           ========================================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: var(--mx-bg);
+            color: var(--mx-white);
+
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+
+        /* =========================================================
+           PAGE
+           ========================================================= */
+
+        .mx-page {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 85% 5%,
+                    rgba(37,99,235,0.16),
+                    transparent 25%
+                ),
+
+                radial-gradient(
+                    circle at 5% 35%,
+                    rgba(34,211,238,0.07),
+                    transparent 23%
+                ),
+
+                linear-gradient(
+                    180deg,
+                    #05070b 0%,
+                    #070b12 45%,
+                    #05070b 100%
+                );
+
+            position: relative;
+        }
+
+
+        /* =========================================================
+           BACKGROUND GRID
+           ========================================================= */
+
+        .mx-grid {
+            position: absolute;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            opacity: 0.20;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,0.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.025) 1px,
+                    transparent 1px
+                );
+
+            background-size: 60px 60px;
+
+            mask-image:
+                linear-gradient(
+                    to bottom,
+                    black,
+                    transparent 80%
+                );
+        }
+
+
+        /* =========================================================
+           FLOATING LIGHTS
+           ========================================================= */
+
+        .mx-orb {
+            position: absolute;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            filter: blur(80px);
+
+            opacity: 0.30;
+
+            animation:
+                mxOrbFloat 9s ease-in-out infinite;
+        }
+
+        .mx-orb-one {
+            width: 300px;
+            height: 300px;
+
+            background: #2563eb;
+
+            top: 120px;
+            right: -100px;
+        }
+
+        .mx-orb-two {
+            width: 240px;
+            height: 240px;
+
+            background: #0891b2;
+
+            top: 700px;
+            left: -120px;
+
+            animation-delay: 2s;
+        }
+
+        @keyframes mxOrbFloat {
+
+            0%,
+            100% {
+                transform: translate3d(0,0,0);
+            }
+
+            50% {
+                transform: translate3d(25px,-35px,0);
+            }
+        }
+
+
+        /* =========================================================
+           NAVBAR
+           ========================================================= */
+
+        .mx-navbar {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            z-index: 9999;
+
+            background:
+                rgba(5,7,11,0.72);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.07);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .mx-nav-inner {
+            max-width: 1280px;
+
+            margin: auto;
+
+            min-height: 72px;
+
+            padding:
+                0 24px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .mx-logo {
+            text-decoration: none;
+
+            font-size: 25px;
+
+            font-weight: 950;
+
+            letter-spacing: -1.5px;
+        }
+
+        .mx-logo span {
+            color: var(--mx-green);
+        }
+
+        .mx-nav-links {
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+        }
+
+        .mx-nav-links a {
+            text-decoration: none;
+
+            color: #aeb9c8;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            padding:
+                9px 13px;
+
+            border-radius: 8px;
+
+            transition:
+                color .25s ease,
+                background .25s ease;
+        }
+
+        .mx-nav-links a:hover {
+            color: white;
+
+            background:
+                rgba(255,255,255,0.06);
+        }
+
+        .mx-nav-login {
+            color: #05070b !important;
+
+            background: white;
+
+            margin-left: 7px;
+
+            font-weight: 800 !important;
+        }
+
+        .mx-nav-login:hover {
+            background: #e2e8f0 !important;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================================================
+           HERO
+           ========================================================= */
+
+        .mx-hero {
+            max-width: 1280px;
+
+            min-height: 850px;
+
+            margin: auto;
+
+            padding:
+                150px 24px 80px;
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.05fr)
+                minmax(400px, .95fr);
+
+            gap: 70px;
+
+            align-items: center;
+
+            position: relative;
+        }
+
+        .mx-hero-content {
+            animation:
+                mxHeroIn .9s ease both;
+        }
+
+        @keyframes mxHeroIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mx-eyebrow {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding:
+                7px 12px;
+
+            border:
+                1px solid
+                rgba(96,165,250,0.25);
+
+            background:
+                rgba(37,99,235,0.08);
+
+            border-radius: 999px;
+
+            color:
+                #93c5fd;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.2px;
+
+            text-transform: uppercase;
+        }
+
+        .mx-live-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background:
+                var(--mx-green);
+
+            box-shadow:
+                0 0 14px
+                var(--mx-green);
+
+            animation:
+                mxPulse 1.6s infinite;
+        }
+
+        @keyframes mxPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.5);
+            }
+        }
+
+        .mx-title {
+            margin-top: 25px;
+
+            max-width: 750px;
+
+            font-size:
+                clamp(48px, 7vw, 84px);
+
+            line-height:
+                .94;
+
+            letter-spacing:
+                -5px;
+
+            font-weight:
+                950;
+        }
+
+        .mx-title-gradient {
+            background:
+                linear-gradient(
+                    100deg,
+                    #ffffff 10%,
+                    #60a5fa 50%,
+                    #22d3ee 90%
+                );
+
+            background-size:
+                200% auto;
+
+            -webkit-background-clip:
+                text;
+
+            background-clip:
+                text;
+
+            color:
+                transparent;
+
+            animation:
+                mxGradient 5s linear infinite;
+        }
+
+        @keyframes mxGradient {
+
+            to {
+                background-position:
+                    200% center;
+            }
+        }
+
+        .mx-description {
+            max-width: 650px;
+
+            margin-top: 25px;
+
+            color:
+                var(--mx-muted);
+
+            font-size: 16px;
+
+            line-height: 1.8;
+        }
+
+
+        /* =========================================================
+           SMART SEARCH
+           ========================================================= */
+
+        .mx-search-wrapper {
+            margin-top: 35px;
+
+            max-width: 720px;
+
+            padding: 8px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.13);
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,0.055);
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,0.25);
+
+            backdrop-filter:
+                blur(20px);
+
+            transition:
+                border-color .3s ease,
+                box-shadow .3s ease;
+        }
+
+        .mx-search-wrapper:focus-within {
+            border-color:
+                rgba(96,165,250,0.55);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(59,130,246,0.08),
+                0 25px 70px
+                rgba(0,0,0,0.35);
+        }
+
+        .mx-search-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .mx-search-icon {
+            width: 46px;
+            height: 46px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background:
+                rgba(37,99,235,0.13);
+
+            color:
+                #60a5fa;
+
+            font-size: 20px;
+        }
+
+        .mx-search-input {
+            flex: 1;
+
+            min-width: 0;
+
+            border: none;
+
+            outline: none;
+
+            background: transparent;
+
+            color: white;
+
+            font-size: 15px;
+
+            padding: 14px 6px;
+        }
+
+        .mx-search-input::placeholder {
+            color:
+                #64748b;
+        }
+
+        .mx-search-button {
+            border: none;
+
+            cursor: pointer;
+
+            padding:
+                13px 19px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #0891b2
+                );
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 850;
+
+            box-shadow:
+                0 8px 25px
+                rgba(37,99,235,0.22);
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+        }
+
+        .mx-search-button:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 14px 35px
+                rgba(37,99,235,0.35);
+        }
+
+        .mx-search-hint {
+            padding:
+                7px 10px 3px;
+
+            color:
+                #64748b;
+
+            font-size:
+                11px;
+        }
+
+
+        /* =========================================================
+           LIFESTYLE CHIPS
+           ========================================================= */
+
+        .mx-lifestyle {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 16px;
+        }
+
+        .mx-chip {
+            cursor: pointer;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.09);
+
+            background:
+                rgba(255,255,255,0.035);
+
+            color:
+                #9aa8ba;
+
+            border-radius:
+                999px;
+
+            padding:
+                8px 12px;
+
+            font-size:
+                11px;
+
+            font-weight:
+                700;
+
+            transition:
+                .25s ease;
+        }
+
+        .mx-chip:hover {
+            color: white;
+
+            border-color:
+                rgba(96,165,250,0.35);
+
+            background:
+                rgba(37,99,235,0.10);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================================================
+           HERO SHOWCASE
+           ========================================================= */
+
+        .mx-showcase {
+            position: relative;
+
+            min-height:
+                530px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            animation:
+                mxShowcaseIn 1s .15s ease both;
+        }
+
+        @keyframes mxShowcaseIn {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateX(35px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateX(0);
+            }
+        }
+
+        .mx-showcase-glow {
+            position: absolute;
+
+            width: 470px;
+            height: 300px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    ellipse,
+                    rgba(37,99,235,0.40),
+                    transparent 70%
+                );
+
+            filter:
+                blur(25px);
+        }
+
+        .mx-showcase-card {
+            width:
+                min(510px, 100%);
+
+            min-height:
+                430px;
+
+            position: relative;
+
+            padding:
+                26px;
+
+            border-radius:
+                28px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.105),
+                    rgba(255,255,255,0.025)
+                );
+
+            box-shadow:
+                var(--mx-shadow);
+
+            backdrop-filter:
+                blur(22px);
+
+            overflow: hidden;
+
+            transform:
+                perspective(1200px)
+                rotateY(-4deg);
+
+            transition:
+                transform .5s ease;
+        }
+
+        .mx-showcase-card:hover {
+            transform:
+                perspective(1200px)
+                rotateY(0deg)
+                translateY(-5px);
+        }
+
+        .mx-showcase-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            top: -140px;
+            right: -100px;
+
+            background:
+                rgba(37,99,235,0.18);
+
+            filter:
+                blur(45px);
+
+            border-radius: 50%;
+        }
+
+        .mx-showcase-top {
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .mx-showcase-label {
+            color:
+                #64748b;
+
+            font-size:
+                10px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                1.5px;
+        }
+
+        .mx-available {
+            color:
+                #4ade80;
+
+            background:
+                rgba(34,197,94,0.10);
+
+            border:
+                1px solid
+                rgba(34,197,94,0.18);
+
+            border-radius:
+                999px;
+
+            padding:
+                5px 9px;
+
+            font-size:
+                9px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                .8px;
+        }
+
+
+        /* =========================================================
+           ABSTRACT CAR
+           ========================================================= */
+
+        .mx-car-stage {
+            height:
+                270px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            position:
+                relative;
+        }
+
+        .mx-car-shadow {
+            position: absolute;
+
+            width:
+                330px;
+
+            height:
+                65px;
+
+            bottom:
+                48px;
+
+            border-radius:
+                50%;
+
+            background:
+                rgba(0,0,0,0.65);
+
+            filter:
+                blur(18px);
+        }
+
+        .mx-car {
+            position:
+                relative;
+
+            width:
+                330px;
+
+            height:
+                105px;
+
+            border-radius:
+                80px
+                100px
+                28px
+                25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc,
+                    #94a3b8 55%,
+                    #475569
+                );
+
+            box-shadow:
+                inset -10px -10px 25px
+                rgba(0,0,0,0.25),
+
+                0 25px 45px
+                rgba(0,0,0,0.45);
+
+            transform:
+                perspective(700px)
+                rotateX(7deg);
+
+            animation:
+                mxCarFloat 4s ease-in-out infinite;
+        }
+
+        .mx-car::before {
+            content: "";
+
+            position:
+                absolute;
+
+            width:
+                165px;
+
+            height:
+                62px;
+
+            left:
+                82px;
+
+            top:
+                -46px;
+
+            border-radius:
+                75px
+                75px
+                12px
+                12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #334155,
+                    #cbd5e1
+                );
+
+            transform:
+                skewX(-9deg);
+        }
+
+        .mx-car::after {
+            content: "";
+
+            position:
+                absolute;
+
+            width:
+                52px;
+
+            height:
+                52px;
+
+            left:
+                42px;
+
+            bottom:
+                -25px;
+
+            border-radius:
+                50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #475569 0 25%,
+                    #020617 28% 100%
+                );
+
+            box-shadow:
+                205px 0 0
+                #020617;
+        }
+
+        @keyframes mxCarFloat {
+
+            0%,
+            100% {
+                transform:
+                    perspective(700px)
+                    rotateX(7deg)
+                    translateY(0);
+            }
+
+            50% {
+                transform:
+                    perspective(700px)
+                    rotateX(7deg)
+                    translateY(-8px);
+            }
+        }
+
+        .mx-showcase-bottom {
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                end;
+
+            position:
+                relative;
+
+            z-index:
+                2;
+        }
+
+        .mx-showcase-bottom h3 {
+            font-size:
+                21px;
+        }
+
+        .mx-showcase-bottom p {
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            margin-top:
+                4px;
+        }
+
+        .mx-showcase-price {
+            color:
+                #60a5fa;
+
+            font-size:
+                23px;
+
+            font-weight:
+                900;
+        }
+
+
+        /* =========================================================
+           SCROLL INDICATOR
+           ========================================================= */
+
+        .mx-scroll {
+            position:
+                absolute;
+
+            bottom:
+                25px;
+
+            left:
+                50%;
+
+            transform:
+                translateX(-50%);
+
+            color:
+                #475569;
+
+            font-size:
+                10px;
+
+            letter-spacing:
+                2px;
+
+            text-transform:
+                uppercase;
+
+            animation:
+                mxScrollPulse 2s infinite;
+        }
+
+        @keyframes mxScrollPulse {
+
+            0%,
+            100% {
+                opacity: .35;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+
+        /* =========================================================
+           STATS
+           ========================================================= */
+
+        .mx-stats {
+            max-width:
+                1080px;
+
+            margin:
+                0 auto;
+
+            padding:
+                0 24px;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap:
+                1px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            border-radius:
+                18px;
+
+            overflow:
+                hidden;
+
+            position:
+                relative;
+
+            z-index:
+                2;
+        }
+
+        .mx-stat {
+            padding:
+                25px 15px;
+
+            text-align:
+                center;
+
+            background:
+                rgba(255,255,255,0.025);
+        }
+
+        .mx-stat-number {
+            display:
+                block;
+
+            font-size:
+                29px;
+
+            font-weight:
+                900;
+        }
+
+        .mx-stat-label {
+            color:
+                #64748b;
+
+            font-size:
+                11px;
+
+            margin-top:
+                4px;
+        }
+
+
+        /* =========================================================
+           MAIN SECTIONS
+           ========================================================= */
+
+        .mx-section {
+            max-width:
+                1280px;
+
+            margin:
+                auto;
+
+            padding:
+                115px 24px 20px;
+        }
+
+        .mx-section-header {
+            max-width:
+                680px;
+
+            margin-bottom:
+                40px;
+        }
+
+        .mx-section-kicker {
+            color:
+                #60a5fa;
+
+            font-size:
+                10px;
+
+            font-weight:
+                850;
+
+            letter-spacing:
+                2px;
+
+            text-transform:
+                uppercase;
+        }
+
+        .mx-section-title {
+            margin-top:
+                10px;
+
+            font-size:
+                clamp(35px,5vw,56px);
+
+            line-height:
+                1;
+
+            letter-spacing:
+                -3px;
+
+            font-weight:
+                900;
+        }
+
+        .mx-section-description {
+            margin-top:
+                15px;
+
+            color:
+                #64748b;
+
+            font-size:
+                14px;
+
+            line-height:
+                1.7;
+        }
+
+
+        /* =========================================================
+           FEATURED CAR GRID
+           ========================================================= */
+
+        .mx-cars-grid {
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap:
+                20px;
+        }
+
+        .mx-car-card {
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            border-radius:
+                19px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.065),
+                    rgba(255,255,255,0.025)
+                );
+
+            transition:
+                transform .35s ease,
+                border-color .35s ease,
+                box-shadow .35s ease;
+
+            opacity:
+                0;
+
+            transform:
+                translateY(25px);
+
+            animation:
+                mxCardIn .65s ease forwards;
+        }
+
+        @keyframes mxCardIn {
+
+            to {
+                opacity:
+                    1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+        .mx-car-card:hover {
+            transform:
+                translateY(-8px);
+
+            border-color:
+                var(--mx-border-hover);
+
+            box-shadow:
+                0 25px 60px
+                rgba(0,0,0,0.35);
+        }
+
+        .mx-car-image {
+            height:
+                220px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(37,99,235,0.20),
+                    #0b1019 70%
+                );
+
+            overflow:
+                hidden;
+        }
+
+        .mx-car-image img {
+            width:
+                100%;
+
+            height:
+                100%;
+
+            object-fit:
+                cover;
+
+            transition:
+                transform .5s ease;
+        }
+
+        .mx-car-card:hover
+        .mx-car-image img {
+            transform:
+                scale(1.05);
+        }
+
+        .mx-no-image {
+            text-align:
+                center;
+
+            color:
+                #334155;
+        }
+
+        .mx-no-image strong {
+            display:
+                block;
+
+            font-size:
+                42px;
+
+            letter-spacing:
+                -3px;
+        }
+
+        .mx-no-image span {
+            color:
+                #475569;
+
+            font-size:
+                9px;
+
+            letter-spacing:
+                2px;
+        }
+
+        .mx-car-content {
+            padding:
+                19px;
+        }
+
+        .mx-car-name {
+            font-size:
+                18px;
+
+            font-weight:
+                800;
+        }
+
+        .mx-car-variant {
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            margin-top:
+                3px;
+        }
+
+        .mx-car-meta {
+            display:
+                flex;
+
+            gap:
+                8px;
+
+            flex-wrap:
+                wrap;
+
+            margin-top:
+                14px;
+        }
+
+        .mx-meta-pill {
+            color:
+                #8b98aa;
+
+            background:
+                rgba(255,255,255,0.045);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.06);
+
+            border-radius:
+                6px;
+
+            padding:
+                5px 7px;
+
+            font-size:
+                10px;
+        }
+
+        .mx-car-footer {
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                end;
+
+            margin-top:
+                18px;
+        }
+
+        .mx-car-price {
+            color:
+                #60a5fa;
+
+            font-size:
+                19px;
+
+            font-weight:
+                900;
+        }
+
+        .mx-car-location {
+            color:
+                #64748b;
+
+            font-size:
+                10px;
+
+            margin-top:
+                3px;
+        }
+
+        .mx-view-car {
+            display:
+                inline-block;
+
+            text-decoration:
+                none;
+
+            padding:
+                9px 12px;
+
+            border-radius:
+                8px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            color:
+                white;
+
+            font-size:
+                11px;
+
+            font-weight:
+                750;
+
+            transition:
+                .25s ease;
+        }
+
+        .mx-view-car:hover {
+            background:
+                var(--mx-blue);
+        }
+
+
+        /* =========================================================
+           LIFESTYLE SECTION
+           ========================================================= */
+
+        .mx-lifestyle-grid {
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap:
+                14px;
+        }
+
+        .mx-lifestyle-card {
+            min-height:
+                170px;
+
+            padding:
+                22px;
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            justify-content:
+                end;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            border-radius:
+                16px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.065),
+                    rgba(255,255,255,0.02)
+                );
+
+            cursor:
+                pointer;
+
+            transition:
+                .35s ease;
+        }
+
+        .mx-lifestyle-card:hover {
+            transform:
+                translateY(-7px);
+
+            border-color:
+                rgba(96,165,250,0.35);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(37,99,235,0.15),
+                    rgba(255,255,255,0.025)
+                );
+        }
+
+        .mx-lifestyle-icon {
+            font-size:
+                28px;
+
+            margin-bottom:
+                auto;
+        }
+
+        .mx-lifestyle-card h3 {
+            font-size:
+                16px;
+        }
+
+        .mx-lifestyle-card p {
+            color:
+                #64748b;
+
+            font-size:
+                11px;
+
+            margin-top:
+                5px;
+        }
+
+
+        /* =========================================================
+           TRUST SECTION
+           ========================================================= */
+
+        .mx-trust-grid {
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap:
+                18px;
+        }
+
+        .mx-trust-card {
+            padding:
+                27px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            border-radius:
+                17px;
+
+            background:
+                rgba(255,255,255,0.035);
+        }
+
+        .mx-trust-number {
+            color:
+                #60a5fa;
+
+            font-size:
+                12px;
+
+            font-weight:
+                850;
+        }
+
+        .mx-trust-card h3 {
+            margin-top:
+                22px;
+
+            font-size:
+                18px;
+        }
+
+        .mx-trust-card p {
+            margin-top:
+                8px;
+
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            line-height:
+                1.7;
+        }
+
+
+        /* =========================================================
+           CTA
+           ========================================================= */
+
+        .mx-cta {
+            max-width:
+                1080px;
+
+            margin:
+                110px auto 70px;
+
+            padding:
+                75px 25px;
+
+            text-align:
+                center;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.10);
+
+            border-radius:
+                27px;
+
+            background:
+                radial-gradient(
+                    circle at 50% 0%,
+                    rgba(37,99,235,0.27),
+                    transparent 58%
+                ),
+
+                rgba(255,255,255,0.035);
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+        }
+
+        .mx-cta h2 {
+            font-size:
+                clamp(35px,5vw,58px);
+
+            line-height:
+                1;
+
+            letter-spacing:
+                -3px;
+        }
+
+        .mx-cta p {
+            max-width:
+                600px;
+
+            margin:
+                16px auto 28px;
+
+            color:
+                #64748b;
+
+            font-size:
+                14px;
+        }
+
+        .mx-cta-buttons {
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            gap:
+                10px;
+
+            flex-wrap:
+                wrap;
+        }
+
+        .mx-btn {
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            text-decoration:
+                none;
+
+            border:
+                none;
+
+            cursor:
+                pointer;
+
+            padding:
+                13px 20px;
+
+            border-radius:
+                9px;
+
+            font-size:
+                12px;
+
+            font-weight:
+                850;
+
+            transition:
+                .25s ease;
+        }
+
+        .mx-btn-primary {
+            color:
+                white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #0891b2
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(37,99,235,0.22);
+        }
+
+        .mx-btn-primary:hover {
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 16px 40px
+                rgba(37,99,235,0.35);
+        }
+
+        .mx-btn-secondary {
+            color:
+                white;
+
+            background:
+                rgba(255,255,255,0.055);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.10);
+        }
+
+        .mx-btn-secondary:hover {
+            background:
+                rgba(255,255,255,0.10);
+
+            transform:
+                translateY(-3px);
+        }
+
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        .mx-footer {
+            padding:
+                40px 24px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.07);
+
+            text-align:
+                center;
+
+            color:
+                #475569;
+        }
+
+        .mx-footer-logo {
+            color:
+                white;
+
+            font-size:
+                20px;
+
+            font-weight:
+                900;
+        }
+
+        .mx-footer-logo span {
+            color:
+                var(--mx-green);
+        }
+
+        .mx-footer p {
+            margin-top:
+                7px;
+
+            font-size:
+                11px;
+        }
+
+
+        /* =========================================================
+           LOADING
+           ========================================================= */
+
+        .mx-loading {
+            grid-column:
+                1 / -1;
+
+            padding:
+                60px;
+
+            text-align:
+                center;
+
+            color:
+                #64748b;
+        }
+
+        .mx-loader {
+            width:
+                30px;
+
+            height:
+                30px;
+
+            margin:
+                0 auto 14px;
+
+            border:
+                2px solid
+                rgba(255,255,255,0.08);
+
+            border-top-color:
+                #60a5fa;
+
+            border-radius:
+                50%;
+
+            animation:
+                mxSpin .8s linear infinite;
+        }
+
+        @keyframes mxSpin {
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .mx-hero {
+                grid-template-columns:
+                    1fr;
+
+                gap:
+                    30px;
+
+                min-height:
+                    auto;
+            }
+
+            .mx-showcase {
+                min-height:
+                    500px;
+            }
+
+            .mx-cars-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .mx-lifestyle-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+        }
+
+
+        @media (max-width: 680px) {
+
+            .mx-nav-inner {
+                min-height:
+                    64px;
+
+                padding:
+                    0 15px;
+            }
+
+            .mx-nav-links a {
+                display:
+                    none;
+            }
+
+            .mx-nav-links
+            .mx-nav-login {
+                display:
+                    block;
+            }
+
+            .mx-hero {
+                padding:
+                    120px 17px 60px;
+            }
+
+            .mx-title {
+                font-size:
+                    clamp(43px,14vw,65px);
+
+                letter-spacing:
+                    -3px;
+            }
+
+            .mx-description {
+                font-size:
+                    14px;
+            }
+
+            .mx-search-row {
+                align-items:
+                    stretch;
+
+                flex-direction:
+                    column;
+            }
+
+            .mx-search-icon {
+                display:
+                    none;
+            }
+
+            .mx-search-input {
+                padding:
+                    13px;
+            }
+
+            .mx-search-button {
+                width:
+                    100%;
+            }
+
+            .mx-stats {
+                grid-template-columns:
+                    repeat(2,1fr);
+
+                margin:
+                    0 15px;
+            }
+
+            .mx-section {
+                padding:
+                    80px 17px 15px;
+            }
+
+            .mx-section-title {
+                letter-spacing:
+                    -2px;
+            }
+
+            .mx-cars-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .mx-lifestyle-grid {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .mx-trust-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .mx-showcase-card {
+                transform:
+                    none;
+            }
+
+            .mx-showcase-card:hover {
+                transform:
+                    translateY(-4px);
+            }
+
+            .mx-car {
+                transform:
+                    scale(.78)
+                    perspective(700px)
+                    rotateX(7deg);
+            }
+
+            .mx-car-shadow {
+                transform:
+                    scale(.75);
+            }
+
+            .mx-cta {
+                margin:
+                    80px 15px 50px;
+
+                padding:
+                    55px 20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="mx-page">
+
+
+    <div class="mx-grid"></div>
+
+    <div class="mx-orb mx-orb-one"></div>
+
+    <div class="mx-orb mx-orb-two"></div>
+
+
+    <!-- =========================================================
+         NAVBAR
+         ========================================================= -->
+
+    <nav class="mx-navbar">
+
+        <div class="mx-nav-inner">
+
+            <a
+                href="index.html"
+                class="mx-logo"
+            >
+                MARKET<span>X</span>
+            </a>
+
+
+            <!--
+                Dynamic navbar.
+
+                Visitor:
+                Home | Explore | Why MarketX | Sell | Login
+
+                Seller:
+                Home | Explore | Why MarketX | Sell |
+                My Cars | Profile | Logout
+
+                Buyer:
+                Home | Explore | Why MarketX |
+                Profile | Logout
+            -->
+
+            <div
+                class="mx-nav-links"
+                id="marketxNavbar"
+            >
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="car-list.html">
+                    Explore
+                </a>
+
+                <a href="#why-marketx">
+                    Why MarketX
+                </a>
+
+                <a
+                    href="add-car.html"
+                    id="sellNavLink"
+                >
+                    Sell
+                </a>
+
+                <a
+                    href="login.html"
+                    class="mx-nav-login"
+                    id="loginNavLink"
+                >
+                    Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================================
+         HERO
+         ========================================================= -->
+
+    <main>
+
+        <section class="mx-hero">
+
+
+            <!-- LEFT -->
+
+            <div class="mx-hero-content">
+
+                <div class="mx-eyebrow">
+
+                    <span class="mx-live-dot"></span>
+
+                    The smarter way to find a car
+
+                </div>
+
+
+                <h1 class="mx-title">
+
+                    Find a car
+                    <br>
+
+                    that fits
+
+                    <span class="mx-title-gradient">
+                        your life.
+                    </span>
+
+                </h1>
+
+
+                <p class="mx-description">
+
+                    Tell MarketX what you need.
+                    Explore vehicles, compare options,
+                    and discover your next drive without
+                    getting lost in complicated filters.
+
+                </p>
+
+
+                <!-- SMART SEARCH -->
+
+                <div class="mx-search-wrapper">
+
+                    <div class="mx-search-row">
+
+                        <div class="mx-search-icon">
+                            ⌕
+                        </div>
+
+
+                        <input
+                            id="heroSearch"
+                            class="mx-search-input"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Try: SUV under ₹15 lakh for family..."
+                        >
+
+
+                        <button
+                            class="mx-search-button"
+                            onclick="performSearch()"
+                        >
+                            Find My Car →
+                        </button>
+
+                    </div>
+
+
+                    <div class="mx-search-hint">
+
+                        Search by brand, model,
+                        budget, fuel, location or need.
+
+                    </div>
+
+                </div>
+
+
+                <!-- LIFESTYLE CHIPS -->
+
+                <div class="mx-lifestyle">
+
+                    <button
+                        class="mx-chip"
+                        onclick="setSearch('Family car')"
+                    >
+                        Family Car
+                    </button>
+
+                    <button
+                        class="mx-chip"
+                        onclick="setSearch('First car')"
+                    >
+                        First Car
+                    </button>
+
+                    <button
+                        class="mx-chip"
+                        onclick="setSearch('SUV')"
+                    >
+                        SUV
+                    </button>
+
+                    <button
+                        class="mx-chip"
+                        onclick="setSearch('Luxury')"
+                    >
+                        Luxury
+                    </button>
+
+                    <button
+                        class="mx-chip"
+                        onclick="setSearch('Under 10 lakh')"
+                    >
+                        Under ₹10L
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div class="mx-showcase">
+
+                <div class="mx-showcase-glow"></div>
+
+
+                <div class="mx-showcase-card">
+
+
+                    <div class="mx-showcase-top">
+
+                        <span class="mx-showcase-label">
+                            MARKETX SELECT
+                        </span>
+
+                        <span class="mx-available">
+                            LIVE MARKET
+                        </span>
+
+                    </div>
+
+
+                    <div class="mx-car-stage">
+
+                        <div class="mx-car-shadow"></div>
+
+                        <div class="mx-car"></div>
+
+                    </div>
+
+
+                    <div class="mx-showcase-bottom">
+
+                        <div>
+
+                            <h3>
+                                Your next drive
+                            </h3>
+
+                            <p>
+                                Discover vehicles available
+                                on MarketX.
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            class="mx-showcase-price"
+                        >
+                            Smart
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="mx-scroll">
+                Scroll to explore
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             LIVE MARKET STATS
+             ===================================================== -->
+
+        <section class="mx-stats">
+
+
+            <div class="mx-stat">
+
+                <strong
+                    id="statCars"
+                    class="mx-stat-number"
+                >
+                    0
+                </strong>
+
+                <span class="mx-stat-label">
+                    Cars Listed
+                </span>
+
+            </div>
+
+
+            <div class="mx-stat">
+
+                <strong
+                    id="statSellers"
+                    class="mx-stat-number"
+                >
+                    —
+                </strong>
+
+                <span class="mx-stat-label">
+                    Sellers
+                </span>
+
+            </div>
+
+
+            <div class="mx-stat">
+
+                <strong
+                    id="statLocations"
+                    class="mx-stat-number"
+                >
+                    —
+                </strong>
+
+                <span class="mx-stat-label">
+                    Locations
+                </span>
+
+            </div>
+
+
+            <div class="mx-stat">
+
+                <strong
+                    class="mx-stat-number"
+                >
+                    24/7
+                </strong>
+
+                <span class="mx-stat-label">
+                    Marketplace Access
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FEATURED VEHICLES
+             ===================================================== -->
+
+        <section class="mx-section">
+
+
+            <div class="mx-section-header">
+
+                <span class="mx-section-kicker">
+                    Live Marketplace
+                </span>
+
+
+                <h2 class="mx-section-title">
+                    Cars worth
+                    looking at.
+                </h2>
+
+
+                <p class="mx-section-description">
+
+                    Explore the latest vehicles listed
+                    on MarketX. Prices and details come
+                    directly from your marketplace data.
+
+                </p>
+
+            </div>
+
+
+            <div
+                id="featuredCars"
+                class="mx-cars-grid"
+            >
+
+                <div class="mx-loading">
+
+                    <div class="mx-loader"></div>
+
+                    Loading MarketX vehicles...
+
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    text-align:center;
+                    margin-top:30px;
+                "
+            >
+
+                <a
+                    href="car-list.html"
+                    class="mx-btn mx-btn-secondary"
+                >
+                    Explore All Cars →
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             LIFESTYLE DISCOVERY
+             ===================================================== -->
+
+        <section class="mx-section">
+
+
+            <div class="mx-section-header">
+
+                <span class="mx-section-kicker">
+                    Start With Your Need
+                </span>
+
+
+                <h2 class="mx-section-title">
+                    Shop by lifestyle.
+                </h2>
+
+
+                <p class="mx-section-description">
+
+                    You don't always start with a model
+                    name. Start with what your life needs
+                    from your next car.
+
+                </p>
+
+            </div>
+
+
+            <div class="mx-lifestyle-grid">
+
+
+                <div
+                    class="mx-lifestyle-card"
+                    onclick="setSearch('Family car')"
+                >
+
+                    <div class="mx-lifestyle-icon">
+                        ◇
+                    </div>
+
+                    <h3>
+                        Family
+                    </h3>
+
+                    <p>
+                        Space, comfort and practicality.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="mx-lifestyle-card"
+                    onclick="setSearch('First car')"
+                >
+
+                    <div class="mx-lifestyle-icon">
+                        ○
+                    </div>
+
+                    <h3>
+                        First Car
+                    </h3>
+
+                    <p>
+                        Simple and practical choices.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="mx-lifestyle-card"
+                    onclick="setSearch('SUV')"
+                >
+
+                    <div class="mx-lifestyle-icon">
+                        △
+                    </div>
+
+                    <h3>
+                        SUV
+                    </h3>
+
+                    <p>
+                        Space, presence and versatility.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="mx-lifestyle-card"
+                    onclick="setSearch('Luxury')"
+                >
+
+                    <div class="mx-lifestyle-icon">
+                        ◆
+                    </div>
+
+                    <h3>
+                        Luxury
+                    </h3>
+
+                    <p>
+                        Premium vehicles and experiences.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             WHY MARKETX
+             ===================================================== -->
+
+        <section
+            id="why-marketx"
+            class="mx-section"
+        >
+
+
+            <div class="mx-section-header">
+
+                <span class="mx-section-kicker">
+                    Built For Better Decisions
+                </span>
+
+
+                <h2 class="mx-section-title">
+                    More than
+                    a car listing.
+                </h2>
+
+
+                <p class="mx-section-description">
+
+                    MarketX is designed to make vehicle
+                    discovery easier, clearer and faster.
+
+                </p>
+
+            </div>
+
+
+            <div class="mx-trust-grid">
+
+
+                <div class="mx-trust-card">
+
+                    <span class="mx-trust-number">
+                        01
+                    </span>
+
+                    <h3>
+                        Smart Discovery
+                    </h3>
+
+                    <p>
+
+                        Search using everyday language
+                        instead of needing to know every
+                        technical specification.
+
+                    </p>
+
+                </div>
+
+
+                <div class="mx-trust-card">
+
+                    <span class="mx-trust-number">
+                        02
+                    </span>
+
+                    <h3>
+                        Clear Information
+                    </h3>
+
+                    <p>
+
+                        Vehicle price, year, fuel,
+                        transmission, kilometres and
+                        location are presented clearly.
+
+                    </p>
+
+                </div>
+
+
+                <div class="mx-trust-card">
+
+                    <span class="mx-trust-number">
+                        03
+                    </span>
+
+                    <h3>
+                        Built For Action
+                    </h3>
+
+                    <p>
+
+                        Move naturally from discovery
+                        to vehicle details and seller
+                        interaction.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SELLER CTA
+             ===================================================== -->
+
+        <section class="mx-cta">
+
+
+            <h2>
+
+                Have a car
+                <span class="mx-title-gradient">
+                    to sell?
+                </span>
+
+            </h2>
+
+
+            <p>
+
+                Put your vehicle in front of potential
+                buyers and manage your listing through
+                MarketX.
+
+            </p>
+
+
+            <div class="mx-cta-buttons">
+
+                <a
+                    href="add-car.html"
+                    class="mx-btn mx-btn-primary"
+                >
+                    List Your Car →
+                </a>
+
+
+                <a
+                    href="register.html"
+                    class="mx-btn mx-btn-secondary"
+                >
+                    Create Account
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
+
+    <footer class="mx-footer">
+
+        <div class="mx-footer-logo">
+            MARKET<span>X</span>
+        </div>
+
+
+        <p>
+            Buy. Sell. Discover.
+        </p>
+
+
+        <p>
+            © 2026 MarketX. All rights reserved.
+        </p>
+
+    </footer>
+
+</div>
+
+
+<script>
+
+    /* =========================================================
+       MARKETX 2.0 JAVASCRIPT
+       ========================================================= */
+
+    let marketCars = [];
+
+
+    /* =========================================================
+       DYNAMIC NAVBAR
+       ========================================================= */
+
+    async function loadNavbar() {
+
+        const navbar =
+            document.getElementById(
+                "marketxNavbar"
+            );
+
+        if (!navbar) {
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/users/me"
+                );
+
+            /*
+             * 401 means visitor is not logged in.
+             * Keep the normal visitor navbar.
+             */
+
+            if (!response.ok) {
+                return;
+            }
+
+            const user =
+                await response.json();
+
+            const loginLink =
+                document.getElementById(
+                    "loginNavLink"
+                );
+
+            const sellLink =
+                document.getElementById(
+                    "sellNavLink"
+                );
+
+
+            /*
+             * Logged-in user does not
+             * need the Login button.
+             */
+
+            if (loginLink) {
+                loginLink.remove();
+            }
+
+
+            const role =
+                user.role
+                    ? String(
+                        user.role
+                    ).toUpperCase()
+                    : "BUYER";
+
+
+            /* =================================================
+               SELLER
+               ================================================= */
+
+            if (role === "SELLER") {
+
+                navbar.insertAdjacentHTML(
+                    "beforeend",
+                    `
+                    <a href="my-cars.html">
+                        My Cars
+                    </a>
+
+                    <a href="profile.html">
+                        Profile
+                    </a>
+
+                    <a
+                        href="#"
+                        onclick="logoutMarketX(event)"
+                    >
+                        Logout
+                    </a>
+                    `
+                );
+
+            }
+
+
+            /* =================================================
+               BUYER
+               ================================================= */
+
+            else if (role === "BUYER") {
+
+                if (sellLink) {
+                    sellLink.remove();
+                }
+
+                navbar.insertAdjacentHTML(
+                    "beforeend",
+                    `
+                    <a href="profile.html">
+                        Profile
+                    </a>
+
+                    <a
+                        href="#"
+                        onclick="logoutMarketX(event)"
+                    >
+                        Logout
+                    </a>
+                    `
+                );
+
+            }
+
+
+            /*
+             * ADMIN
+             *
+             * Your current /api/users/me endpoint
+             * handles normal users.
+             *
+             * Admin accounts are stored separately,
+             * so we use /api/admin/stats as an
+             * admin-access probe.
+             */
+
+            else if (role === "ADMIN") {
+
+                if (sellLink) {
+                    sellLink.remove();
+                }
+
+                navbar.insertAdjacentHTML(
+                    "beforeend",
+                    `
+                    <a href="admin.html">
+                        Admin
+                    </a>
+
+                    <a href="profile.html">
+                        Profile
+                    </a>
+
+                    <a
+                        href="#"
+                        onclick="logoutMarketX(event)"
+                    >
+                        Logout
+                    </a>
+                    `
+                );
+
+            }
+
+        } catch (error) {
+
+            console.log(
+                "Visitor is not logged in."
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+       ========================================================= */
+
+    async function logoutMarketX(event) {
+
+        event.preventDefault();
+
+        try {
+
+            await fetch(
+                "/api/users/logout",
+                {
+                    method: "POST"
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "MarketX logout error:",
+                error
+            );
+
+        }
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+    /* =========================================================
+       LOAD MARKET DATA
+       ========================================================= */
+
+    async function loadMarketData() {
+
+        const container =
+            document.getElementById(
+                "featuredCars"
+            );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/cars"
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load cars"
+                );
+
+            }
+
+
+            const cars =
+                await response.json();
+
+
+            marketCars =
+                Array.isArray(cars)
+                    ? cars
+                    : [];
+
+
+            updateStatistics(
+                marketCars
+            );
+
+
+            renderFeaturedCars(
+                marketCars
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "MarketX:",
+                error
+            );
+
+
+            container.innerHTML = `
+
+                <div class="mx-loading">
+
+                    <div style="
+                        font-size:28px;
+                        margin-bottom:10px;
+                    ">
+                        !
+                    </div>
+
+                    <p>
+                        Unable to load the marketplace.
+                    </p>
+
+                    <p style="
+                        font-size:11px;
+                        margin-top:6px;
+                    ">
+                        Make sure Spring Boot is running.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       UPDATE LIVE STATISTICS
+       ========================================================= */
+
+    function updateStatistics(cars) {
+
+        const statCars =
+            document.getElementById(
+                "statCars"
+            );
+
+
+        const statLocations =
+            document.getElementById(
+                "statLocations"
+            );
+
+
+        statCars.textContent =
+            cars.length;
+
+
+        const locations =
+            new Set(
+
+                cars
+
+                    .map(
+                        car =>
+                            String(
+                                car.location || ""
+                            )
+                            .trim()
+                            .toLowerCase()
+                    )
+
+                    .filter(Boolean)
+
+            );
+
+
+        statLocations.textContent =
+            locations.size;
+
+
+        /*
+         * Seller count is not available
+         * from /api/cars.
+         *
+         * Therefore we do not invent
+         * a number.
+         */
+
+        document.getElementById(
+            "statSellers"
+        ).textContent = "—";
+
+    }
+
+
+    /* =========================================================
+       RENDER FEATURED CARS
+       ========================================================= */
+
+    function renderFeaturedCars(cars) {
+
+        const container =
+            document.getElementById(
+                "featuredCars"
+            );
+
+
+        if (!cars.length) {
+
+            container.innerHTML = `
+
+                <div class="mx-loading">
+
+                    <h3 style="
+                        color:white;
+                        margin-bottom:8px;
+                    ">
+                        No cars listed yet
+                    </h3>
+
+                    <p>
+                        Be the first seller on MarketX.
+                    </p>
+
+                    <div style="
+                        margin-top:18px;
+                    ">
+
+                        <a
+                            href="add-car.html"
+                            class="mx-btn mx-btn-primary"
+                        >
+                            List Your Car →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        const featured =
+            cars.slice(0, 6);
+
+
+        container.innerHTML =
+            featured
+                .map(
+                    (car, index) =>
+                        createCarCard(
+                            car,
+                            index
+                        )
+                )
+                .join("");
+
+    }
+
+
+    /* =========================================================
+       CREATE CAR CARD
+       ========================================================= */
+
+    function createCarCard(
+        car,
+        index
+    ) {
+
+        const brand =
+            car.brand || "Vehicle";
+
+
+        const model =
+            car.model || "";
+
+
+        const variant =
+            car.variant ||
+            "Standard";
+
+
+        const price =
+            Number(
+                car.price || 0
+            ).toLocaleString(
+                "en-IN"
+            );
+
+
+        const year =
+            car.manufacturingYear ||
+            "—";
+
+
+        const fuel =
+            car.fuelType ||
+            "—";
+
+
+        const transmission =
+            car.transmission ||
+            "—";
+
+
+        const km =
+            Number(
+                car.kilometersDriven || 0
+            ).toLocaleString(
+                "en-IN"
+            );
+
+
+        const location =
+            car.location ||
+            "India";
+
+
+        const image =
+            car.image &&
+            String(
+                car.image
+            ).trim() !== ""
+                ? car.image
+                : null;
+
+
+        return `
+
+            <article
+                class="mx-car-card"
+                style="
+                    animation-delay:
+                    ${index * 0.10}s;
+                "
+            >
+
+                <div class="mx-car-image">
+
+                    ${
+                        image
+
+                        ?
+
+                        `
+                        <img
+                            src="${escapeHtml(image)}"
+                            alt="${escapeHtml(
+                                brand + " " + model
+                            )}"
+                            onerror="
+                                this.style.display='none';
+                                this.nextElementSibling.style.display='block';
+                            "
+                        >
+
+                        <div
+                            class="mx-no-image"
+                            style="display:none;"
+                        >
+
+                            <strong>MX</strong>
+
+                            <span>
+                                MARKETX
+                            </span>
+
+                        </div>
+                        `
+
+                        :
+
+                        `
+
+                        <div class="mx-no-image">
+
+                            <strong>MX</strong>
+
+                            <span>
+                                MARKETX
+                            </span>
+
+                        </div>
+
+                        `
+                    }
+
+                </div>
+
+
+                <div class="mx-car-content">
+
+
+                    <h3 class="mx-car-name">
+
+                        ${escapeHtml(brand)}
+                        ${escapeHtml(model)}
+
+                    </h3>
+
+
+                    <div class="mx-car-variant">
+
+                        ${escapeHtml(variant)}
+
+                    </div>
+
+
+                    <div class="mx-car-meta">
+
+                        <span class="mx-meta-pill">
+                            ${escapeHtml(
+                                String(year)
+                            )}
+                        </span>
+
+                        <span class="mx-meta-pill">
+                            ${escapeHtml(
+                                String(fuel)
+                            )}
+                        </span>
+
+                        <span class="mx-meta-pill">
+                            ${escapeHtml(
+                                String(transmission)
+                            )}
+                        </span>
+
+                        <span class="mx-meta-pill">
+                            ${escapeHtml(
+                                String(km)
+                            )} km
+                        </span>
+
+                    </div>
+
+
+                    <div class="mx-car-footer">
+
+
+                        <div>
+
+                            <div class="mx-car-price">
+                                ₹${price}
+                            </div>
+
+                            <div class="mx-car-location">
+                                ${escapeHtml(
+                                    location
+                                )}
+                            </div>
+
+                        </div>
+
+
+                        <a
+                            href="car-details.html?id=${encodeURIComponent(
+                                car.id
+                            )}"
+                            class="mx-view-car"
+                        >
+                            View Car →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        `;
+
+    }
+
+
+    /* =========================================================
+       SEARCH
+       ========================================================= */
+
+    function performSearch() {
+
+        const input =
+            document.getElementById(
+                "heroSearch"
+            );
+
+
+        const query =
+            input.value.trim();
+
+
+        if (!query) {
+
+            input.focus();
+
+            return;
+
+        }
+
+
+        const normalized =
+            query.toLowerCase();
+
+
+        /*
+         * Check exact/local vehicle
+         * match first.
+         */
+
+        const exactMatch =
+            marketCars.find(
+                car => {
+
+                    const searchable = [
+
+                        car.brand,
+                        car.model,
+                        car.variant,
+                        car.location,
+                        car.fuelType,
+                        car.transmission
+
+                    ]
+
+                        .filter(Boolean)
+
+                        .join(" ")
+
+                        .toLowerCase();
+
+
+                    return searchable.includes(
+                        normalized
+                    );
+
+                }
+            );
+
+
+        if (exactMatch) {
+
+            window.location.href =
+                "car-details.html?id="
+                +
+                encodeURIComponent(
+                    exactMatch.id
+                );
+
+            return;
+
+        }
+
+
+        /*
+         * Otherwise send the query
+         * to the car-list page.
+         */
+
+        window.location.href =
+            "car-list.html?search="
+            +
+            encodeURIComponent(
+                query
+            );
+
+    }
+
+
+    /* =========================================================
+       CHIP SEARCH
+       ========================================================= */
+
+    function setSearch(value) {
+
+        const input =
+            document.getElementById(
+                "heroSearch"
+            );
+
+
+        input.value =
+            value;
+
+
+        input.focus();
+
+
+        window.scrollTo({
+
+            top:
+                0,
+
+            behavior:
+                "smooth"
+
+        });
+
+    }
+
+
+    /* =========================================================
+       ENTER KEY SEARCH
+       ========================================================= */
+
+    document
+        .getElementById(
+            "heroSearch"
+        )
+        .addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    performSearch();
+
+                }
+
+            }
+        );
+
+
+    /* =========================================================
+       HTML ESCAPE
+       ========================================================= */
+
+    function escapeHtml(value) {
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* =========================================================
+       START MARKETX
+       ========================================================= */
+
+    loadNavbar();
+
+    loadMarketData();
+
+</script>
+
+
+</body>
+
+</html>

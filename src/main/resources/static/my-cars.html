@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Cars | MarketX</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #070909;
+    --panel: #111514;
+    --panel2: #171c19;
+    --border: rgba(255,255,255,.09);
+    --text: #f4f7f5;
+    --muted: #89938e;
+    --green: #b7ff3c;
+    --danger: #ff6262;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(183,255,60,.07),
+            transparent 30%
+        ),
+        var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* NAV */
+
+nav {
+    height: 76px;
+    padding: 0 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(7,9,9,.9);
+    backdrop-filter: blur(18px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.logo {
+    text-decoration: none;
+    color: white;
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo span {
+    color: var(--green);
+}
+
+.nav-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: #aab3ae;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+.sell-btn {
+    background: var(--green);
+    color: #071000 !important;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-weight: 800;
+}
+
+/* PAGE */
+
+.page {
+    width: min(1200px, 92%);
+    margin: auto;
+    padding: 55px 0 90px;
+}
+
+.eyebrow {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: clamp(38px, 5vw, 60px);
+    letter-spacing: -2.5px;
+}
+
+.subtitle {
+    color: var(--muted);
+    margin-top: 14px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* TOP */
+
+.topbar {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.stats {
+    display: flex;
+    gap: 12px;
+}
+
+.stat {
+    background: rgba(255,255,255,.035);
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    border-radius: 13px;
+    min-width: 115px;
+}
+
+.stat span {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.stat strong {
+    font-size: 20px;
+}
+
+/* ADD */
+
+.add-btn {
+    background: var(--green);
+    color: #071000;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 11px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+/* LIST */
+
+.list {
+    margin-top: 30px;
+    display: grid;
+    gap: 16px;
+}
+
+/* CARD */
+
+.car-card {
+    display: grid;
+    grid-template-columns: 260px 1fr auto;
+    gap: 22px;
+    align-items: center;
+
+    padding: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.018)
+        );
+
+    border: 1px solid var(--border);
+    border-radius: 20px;
+
+    transition: .2s;
+}
+
+.car-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(183,255,60,.22);
+}
+
+/* IMAGE */
+
+.car-image {
+    height: 165px;
+    border-radius: 14px;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(183,255,60,.12),
+            transparent 40%
+        ),
+        linear-gradient(
+            145deg,
+            #1d2421,
+            #0b0e0d
+        );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.car-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fake-car {
+    width: 75%;
+    height: 55px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #e6ebe8,
+            #737b76
+        );
+
+    border-radius: 45px 60px 20px 20px;
+
+    position: relative;
+
+    box-shadow:
+        0 20px 30px rgba(0,0,0,.5);
+}
+
+.fake-car:before {
+    content: "";
+
+    position: absolute;
+
+    width: 45%;
+    height: 30px;
+
+    left: 28%;
+    top: -17px;
+
+    background: #202522;
+
+    border-radius: 25px 30px 5px 5px;
+}
+
+.fake-wheel {
+    width: 25px;
+    height: 25px;
+
+    background: #080a09;
+
+    border: 6px solid #454c48;
+
+    border-radius: 50%;
+
+    position: absolute;
+
+    bottom: -12px;
+}
+
+.fake-wheel.left {
+    left: 14%;
+}
+
+.fake-wheel.right {
+    right: 14%;
+}
+
+/* INFO */
+
+.car-info {
+    min-width: 0;
+}
+
+.status {
+    display: inline-block;
+
+    color: var(--green);
+
+    border: 1px solid rgba(183,255,60,.22);
+
+    background: rgba(183,255,60,.06);
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 9px;
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 10px;
+}
+
+.car-title {
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.car-variant {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.price {
+    color: white;
+    font-size: 23px;
+    font-weight: 900;
+    margin-top: 15px;
+}
+
+.specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.spec {
+    background: rgba(255,255,255,.045);
+    border: 1px solid var(--border);
+    padding: 7px 10px;
+    border-radius: 8px;
+    color: #aeb7b2;
+    font-size: 11px;
+}
+
+.location {
+    color: #7d8782;
+    font-size: 12px;
+    margin-top: 12px;
+}
+
+/* ACTIONS */
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 100px;
+}
+
+.action {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.035);
+    color: white;
+
+    padding: 10px 14px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-decoration: none;
+    text-align: center;
+}
+
+.action:hover {
+    border-color: rgba(183,255,60,.4);
+}
+
+.action.delete {
+    color: #ff9696;
+}
+
+.action.delete:hover {
+    border-color: rgba(255,80,80,.4);
+}
+
+/* EMPTY */
+
+.empty {
+    display: none;
+
+    text-align: center;
+
+    padding: 80px 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.015)
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+}
+
+.empty h2 {
+    font-size: 25px;
+}
+
+.empty p {
+    color: var(--muted);
+    margin-top: 10px;
+}
+
+.empty button {
+    margin-top: 25px;
+}
+
+/* LOADING */
+
+.loading {
+    text-align: center;
+    color: var(--muted);
+    padding: 70px;
+}
+
+/* MESSAGE */
+
+.message {
+    display: none;
+
+    padding: 13px 16px;
+
+    margin-top: 20px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+}
+
+.message.error {
+    display: block;
+    color: #ffb2b2;
+    background: rgba(255,70,70,.08);
+    border: 1px solid rgba(255,70,70,.18);
+}
+
+.message.success {
+    display: block;
+    color: #d9ff9e;
+    background: rgba(183,255,60,.08);
+    border: 1px solid rgba(183,255,60,.18);
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 850px) {
+
+    .car-card {
+        grid-template-columns: 190px 1fr;
+    }
+
+    .actions {
+        grid-column: 2;
+        flex-direction: row;
+    }
+
+}
+
+@media(max-width: 650px) {
+
+    .nav-links a:not(.sell-btn) {
+        display: none;
+    }
+
+    .page {
+        width: 94%;
+        padding-top: 35px;
+    }
+
+    .topbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .car-card {
+        grid-template-columns: 1fr;
+    }
+
+    .car-image {
+        height: 210px;
+    }
+
+    .actions {
+        grid-column: auto;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+    <a href="index.html" class="logo">
+        MARKET<span>X</span>
+    </a>
+
+    <div class="nav-links">
+
+        <a href="index.html">Home</a>
+
+        <a href="car-list.html">Explore</a>
+
+        <a href="my-cars.html">My Cars</a>
+
+        <a href="profile.html">Profile</a>
+
+        <a href="add-car.html" class="sell-btn">
+            Sell Your Car
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="page">
+
+    <div class="eyebrow">
+        Seller Workspace
+    </div>
+
+    <h1>
+        My Cars
+    </h1>
+
+    <p class="subtitle">
+        Manage your MarketX inventory, update listings,
+        and keep your vehicles ready for buyers.
+    </p>
+
+
+    <div class="topbar">
+
+        <div class="stats">
+
+            <div class="stat">
+                <span>Total Listings</span>
+                <strong id="totalCars">0</strong>
+            </div>
+
+            <div class="stat">
+                <span>Active</span>
+                <strong id="activeCars">0</strong>
+            </div>
+
+        </div>
+
+
+        <button
+            class="add-btn"
+            onclick="window.location.href='add-car.html'"
+        >
+            + Add New Car
+        </button>
+
+    </div>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <div
+        id="loading"
+        class="loading"
+    >
+        Loading your cars...
+    </div>
+
+
+    <div
+        id="carList"
+        class="list"
+    ></div>
+
+
+    <div
+        id="empty"
+        class="empty"
+    >
+
+        <h2>
+            No cars listed yet
+        </h2>
+
+        <p>
+            Your published vehicles will appear here.
+        </p>
+
+        <button
+            class="add-btn"
+            onclick="window.location.href='add-car.html'"
+        >
+            List Your First Car
+        </button>
+
+    </div>
+
+</main>
+
+
+<script>
+
+let cars = [];
+
+
+/* LOAD SELLER CARS */
+
+async function loadCars() {
+
+    const loading =
+        document.getElementById("loading");
+
+    const list =
+        document.getElementById("carList");
+
+    const empty =
+        document.getElementById("empty");
+
+    try {
+
+        const response =
+            await fetch("/api/cars", {
+                credentials: "include"
+            });
+
+
+        if (response.status === 401 ||
+            response.status === 403) {
+
+            throw new Error(
+                "Please login with your seller account."
+            );
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load your cars."
+            );
+
+        }
+
+
+        const allCars =
+            await response.json();
+
+
+        /*
+         * The backend returns the cars visible
+         * to the current user.
+         *
+         * If your CarController currently
+         * returns every car here, the backend
+         * should be changed to return only
+         * the authenticated seller's cars.
+         */
+
+        cars = Array.isArray(allCars)
+            ? allCars
+            : [];
+
+
+        loading.style.display = "none";
+
+
+        document.getElementById("totalCars")
+            .textContent = cars.length;
+
+        document.getElementById("activeCars")
+            .textContent = cars.length;
+
+
+        if (cars.length === 0) {
+
+            empty.style.display = "block";
+
+            return;
+
+        }
+
+
+        renderCars();
+
+
+    } catch(error) {
+
+        loading.style.display = "none";
+
+        showMessage(
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* RENDER */
+
+function renderCars() {
+
+    const list =
+        document.getElementById("carList");
+
+    list.innerHTML = "";
+
+
+    cars.forEach(function(car) {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "car-card";
+
+
+        const imageHTML =
+            car.image
+            ?
+            `<img src="${escapeHTML(car.image)}"
+                  alt="${escapeHTML(car.brand + " " + car.model)}">`
+            :
+            `
+            <div class="fake-car">
+
+                <div class="fake-wheel left"></div>
+
+                <div class="fake-wheel right"></div>
+
+            </div>
+            `;
+
+
+        card.innerHTML = `
+
+            <div class="car-image">
+                ${imageHTML}
+            </div>
+
+
+            <div class="car-info">
+
+                <div class="status">
+                    ACTIVE LISTING
+                </div>
+
+                <div class="car-title">
+                    ${escapeHTML(
+                        car.brand || ""
+                    )}
+                    ${escapeHTML(
+                        car.model || ""
+                    )}
+                </div>
+
+                <div class="car-variant">
+                    ${escapeHTML(
+                        car.variant || "Standard"
+                    )}
+                </div>
+
+                <div class="price">
+                    ${formatPrice(car.price)}
+                </div>
+
+
+                <div class="specs">
+
+                    <div class="spec">
+                        ${car.manufacturingYear || "—"}
+                    </div>
+
+                    <div class="spec">
+                        ${formatKm(
+                            car.kilometersDriven
+                        )}
+                    </div>
+
+                    <div class="spec">
+                        ${escapeHTML(
+                            car.fuelType || "—"
+                        )}
+                    </div>
+
+                    <div class="spec">
+                        ${escapeHTML(
+                            car.transmission || "—"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="location">
+                    ${escapeHTML(
+                        car.location || "Location unavailable"
+                    )}
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <a
+                    class="action"
+                    href="car-details.html?id=${car.id}"
+                >
+                    View
+                </a>
+
+                <a
+                    class="action"
+                    href="edit-car.html?id=${car.id}"
+                >
+                    Edit
+                </a>
+
+                <button
+                    class="action delete"
+                    onclick="deleteCar(${car.id})"
+                >
+                    Delete
+                </button>
+
+            </div>
+
+        `;
+
+
+        list.appendChild(card);
+
+    });
+
+}
+
+
+/* DELETE */
+
+async function deleteCar(id) {
+
+    const confirmed =
+        confirm(
+            "Delete this car listing?\n\nThis action cannot be undone."
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/cars/" + id,
+                {
+                    method: "DELETE",
+                    credentials: "include"
+                }
+            );
+
+
+        if (response.status === 401 ||
+            response.status === 403) {
+
+            throw new Error(
+                "You do not have permission to delete this listing."
+            );
+
+        }
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            throw new Error(
+                errorText ||
+                "Unable to delete listing."
+            );
+
+        }
+
+
+        showMessage(
+            "Car listing deleted successfully.",
+            "success"
+        );
+
+
+        await loadCars();
+
+
+    } catch(error) {
+
+        showMessage(
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* FORMAT PRICE */
+
+function formatPrice(price) {
+
+    if (!price) {
+        return "₹0";
+    }
+
+
+    return "₹" +
+        Number(price).toLocaleString("en-IN");
+
+}
+
+
+/* FORMAT KM */
+
+function formatKm(km) {
+
+    if (km === null ||
+        km === undefined ||
+        km === "") {
+
+        return "—";
+
+    }
+
+
+    return Number(km).toLocaleString("en-IN")
+        + " km";
+
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* MESSAGE */
+
+function showMessage(text, type) {
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = text;
+
+    message.className =
+        "message " + type;
+
+}
+
+
+/* START */
+
+loadCars();
+
+</script>
+
+</body>
+
+</html>

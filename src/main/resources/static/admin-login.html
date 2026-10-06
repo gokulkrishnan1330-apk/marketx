@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login - MarketX</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #080A09,
+                    #0D100F,
+                    #063D2A
+                );
+
+            color: #F5F7F5;
+        }
+
+
+        /* LOGIN CONTAINER */
+
+        .login-container {
+
+            width: 420px;
+
+            max-width: 90%;
+
+            padding: 40px;
+
+            background: #111513;
+
+            border: 1px solid #26332D;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 0, 0, 0.55);
+
+            text-align: center;
+        }
+
+
+        /* LOGO */
+
+        .logo {
+
+            font-size: 34px;
+
+            font-weight: bold;
+
+            color: #D4AF37;
+
+            margin-bottom: 8px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .subtitle {
+
+            color: #AAB5AE;
+
+            font-size: 14px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* TITLE */
+
+        h2 {
+
+            color: #F5F7F5;
+
+            margin-bottom: 25px;
+
+            font-size: 24px;
+        }
+
+
+        /* FORM */
+
+        .form-group {
+
+            text-align: left;
+
+            margin-bottom: 20px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #AAB5AE;
+
+            font-size: 14px;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 13px 15px;
+
+            border-radius: 8px;
+
+            border: 1px solid #26332D;
+
+            background: #0D100F;
+
+            color: #F5F7F5;
+
+            outline: none;
+
+            font-size: 15px;
+
+            transition: 0.3s;
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #149B68;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(20, 155, 104, 0.15);
+        }
+
+
+        /* LOGIN BUTTON */
+
+        #loginButton {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 10px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #0B6B45;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        #loginButton:hover {
+
+            background: #149B68;
+
+            transform: translateY(-1px);
+        }
+
+
+        #loginButton:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* MESSAGE */
+
+        #loginMessage {
+
+            min-height: 22px;
+
+            margin-top: 18px;
+
+            font-size: 14px;
+        }
+
+
+        /* BACK BUTTON */
+
+        .back-button {
+
+            display: inline-block;
+
+            margin-top: 25px;
+
+            color: #D4AF37;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+
+        .back-button:hover {
+
+            color: #E5C766;
+        }
+
+
+        /* ADMIN BADGE */
+
+        .admin-badge {
+
+            display: inline-block;
+
+            padding: 6px 14px;
+
+            margin-bottom: 15px;
+
+            border: 1px solid #D4AF37;
+
+            border-radius: 20px;
+
+            color: #D4AF37;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 500px) {
+
+            .login-container {
+
+                padding: 30px 22px;
+            }
+
+            .logo {
+
+                font-size: 28px;
+            }
+
+            h2 {
+
+                font-size: 21px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="login-container">
+
+
+        <div class="logo">
+            MarketX
+        </div>
+
+
+        <div class="subtitle">
+            Car Marketplace
+        </div>
+
+
+        <div class="admin-badge">
+            ADMIN PANEL
+        </div>
+
+
+        <h2>
+            Admin Login
+        </h2>
+
+
+        <form id="adminLoginForm">
+
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter admin username"
+                    autocomplete="username"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter admin password"
+                    autocomplete="current-password"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                id="loginButton">
+
+                ADMIN LOGIN
+
+            </button>
+
+
+        </form>
+
+
+        <div id="loginMessage"></div>
+
+
+        <a
+            href="index.html"
+            class="back-button">
+
+            ← Back to MarketX
+
+        </a>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        /*
+         * ADMIN LOGIN
+         *
+         * IMPORTANT:
+         * This page does NOT call /api/admin/me.
+         *
+         * Only protected admin pages such as:
+         * admin-dashboard.html
+         * admin-users.html
+         * admin-cars.html
+         *
+         * should check admin authentication.
+         */
+
+
+        document
+            .getElementById("adminLoginForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+
+                    event.preventDefault();
+
+
+                    const username =
+                        document
+                            .getElementById("username")
+                            .value
+                            .trim();
+
+
+                    const password =
+                        document
+                            .getElementById("password")
+                            .value;
+
+
+                    const message =
+                        document
+                            .getElementById(
+                                "loginMessage"
+                            );
+
+
+                    const loginButton =
+                        document
+                            .getElementById(
+                                "loginButton"
+                            );
+
+
+                    /*
+                     * Clear previous message
+                     */
+
+                    message.textContent = "";
+
+
+                    /*
+                     * Disable button
+                     */
+
+                    loginButton.disabled = true;
+
+                    loginButton.textContent =
+                        "LOGGING IN...";
+
+
+                    try {
+
+
+                        /*
+                         * Send login request
+                         */
+
+                        const response =
+                            await fetch(
+                                "/api/admin/login",
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    credentials:
+                                        "same-origin",
+
+                                    body:
+                                        JSON.stringify({
+                                            username:
+                                                username,
+
+                                            password:
+                                                password
+                                        })
+                                }
+                            );
+
+
+                        /*
+                         * Login failed
+                         */
+
+                        if (!response.ok) {
+
+                            let errorMessage =
+                                "Invalid admin username or password.";
+
+                            try {
+
+                                const serverMessage =
+                                    await response.text();
+
+                                if (serverMessage) {
+
+                                    errorMessage =
+                                        serverMessage;
+                                }
+
+                            } catch (error) {
+
+                                console.log(
+                                    "Could not read server error."
+                                );
+                            }
+
+
+                            message.textContent =
+                                errorMessage;
+
+                            message.style.color =
+                                "#ff5555";
+
+
+                            return;
+                        }
+
+
+                        /*
+                         * Read successful response
+                         */
+
+                        const admin =
+                            await response.json();
+
+
+                        /*
+                         * Check response
+                         */
+
+                        if (
+                            admin &&
+                            admin.id &&
+                            admin.username
+                        ) {
+
+
+                            /*
+                             * Store basic admin information.
+                             *
+                             * Password is NOT stored.
+                             */
+
+                            localStorage.setItem(
+                                "marketxAdmin",
+                                JSON.stringify({
+                                    id:
+                                        admin.id,
+
+                                    username:
+                                        admin.username
+                                })
+                            );
+
+
+                            message.textContent =
+                                "Admin login successful.";
+
+                            message.style.color =
+                                "#149B68";
+
+
+                            /*
+                             * Go to dashboard
+                             */
+
+                            setTimeout(
+                                function() {
+
+                                    window.location.href =
+                                        "admin-dashboard.html";
+
+                                },
+                                500
+                            );
+
+
+                        } else {
+
+
+                            message.textContent =
+                                "Invalid admin username or password.";
+
+                            message.style.color =
+                                "#ff5555";
+                        }
+
+
+                    } catch (error) {
+
+
+                        console.error(
+                            "Admin login error:",
+                            error
+                        );
+
+
+                        message.textContent =
+                            "Unable to connect to server.";
+
+                        message.style.color =
+                            "#ff5555";
+
+
+                    } finally {
+
+
+                        /*
+                         * Enable button again
+                         */
+
+                        loginButton.disabled =
+                            false;
+
+                        loginButton.textContent =
+                            "ADMIN LOGIN";
+                    }
+
+                }
+            );
+
+    </script>
+
+
+</body>
+
+</html>

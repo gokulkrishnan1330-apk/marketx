@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>MarketX - Login</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+
+        background:
+            linear-gradient(
+                135deg,
+                #0f172a,
+                #111827,
+                #1e1b4b
+            );
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: white;
+        padding: 20px;
+    }
+
+    .login-container {
+        width: 430px;
+        max-width: 100%;
+
+        background: rgba(255, 255, 255, 0.08);
+
+        backdrop-filter: blur(15px);
+
+        border: 1px solid
+                rgba(255, 255, 255, 0.15);
+
+        border-radius: 20px;
+
+        padding: 35px;
+
+        box-shadow:
+            0 20px 50px
+            rgba(0, 0, 0, 0.4);
+    }
+
+    .logo {
+        text-align: center;
+
+        font-size: 34px;
+        font-weight: bold;
+
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        text-align: center;
+
+        color: #cbd5e1;
+
+        margin-bottom: 30px;
+    }
+
+    .role-title {
+        font-size: 14px;
+
+        color: #cbd5e1;
+
+        margin-bottom: 10px;
+    }
+
+    .role-container {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 10px;
+
+        margin-bottom: 25px;
+    }
+
+    .role-option {
+        border: 2px solid #334155;
+
+        border-radius: 12px;
+
+        padding: 15px 8px;
+
+        text-align: center;
+
+        cursor: pointer;
+
+        background:
+            rgba(255, 255, 255, 0.03);
+
+        transition: 0.25s;
+    }
+
+    .role-option:hover {
+        border-color: #6366f1;
+
+        transform: translateY(-2px);
+    }
+
+    .role-option.active {
+        border-color: #6366f1;
+
+        background:
+            rgba(99, 102, 241, 0.20);
+    }
+
+    .role-icon {
+        width: 42px;
+        height: 42px;
+
+        margin: auto;
+        margin-bottom: 8px;
+
+        border-radius: 50%;
+
+        background: #6366f1;
+
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .role-name {
+        font-size: 15px;
+
+        font-weight: bold;
+    }
+
+    .role-description {
+        font-size: 11px;
+
+        color: #94a3b8;
+
+        margin-top: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+
+        margin-bottom: 7px;
+
+        color: #e2e8f0;
+
+        font-size: 14px;
+    }
+
+    input {
+        width: 100%;
+
+        padding: 13px 14px;
+
+        border: 1px solid #475569;
+
+        border-radius: 10px;
+
+        background: #0f172a;
+
+        color: white;
+
+        outline: none;
+
+        font-size: 15px;
+    }
+
+    input::placeholder {
+        color: #64748b;
+    }
+
+    input:focus {
+        border-color: #6366f1;
+
+        box-shadow:
+            0 0 0 3px
+            rgba(99, 102, 241, 0.15);
+    }
+
+    .login-btn {
+        width: 100%;
+
+        padding: 14px;
+
+        border: none;
+
+        border-radius: 10px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #6366f1,
+                #8b5cf6
+            );
+
+        color: white;
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition: 0.25s;
+    }
+
+    .login-btn:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 10px 25px
+            rgba(99, 102, 241, 0.35);
+    }
+
+    .login-btn:disabled {
+        opacity: 0.6;
+
+        cursor: not-allowed;
+    }
+
+    #message {
+        margin-top: 15px;
+
+        text-align: center;
+
+        font-size: 14px;
+
+        min-height: 20px;
+    }
+
+    .register {
+        text-align: center;
+
+        margin-top: 25px;
+
+        color: #cbd5e1;
+    }
+
+    .register a {
+        color: #818cf8;
+
+        text-decoration: none;
+
+        font-weight: bold;
+    }
+
+    .register a:hover {
+        text-decoration: underline;
+    }
+
+    .home {
+        display: block;
+
+        text-align: center;
+
+        margin-top: 15px;
+
+        color: #94a3b8;
+
+        text-decoration: none;
+    }
+
+    .home:hover {
+        color: white;
+    }
+
+    @media (max-width: 500px) {
+
+        .login-container {
+            padding: 25px;
+        }
+
+        .logo {
+            font-size: 28px;
+        }
+
+        .role-container {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+```
+<div class="logo">
+    MarketX
+</div>
+
+<p class="subtitle">
+    Buy and sell vehicles with confidence
+</p>
+
+<!-- ROLE -->
+
+<div class="role-title">
+    Login as
+</div>
+
+<div class="role-container">
+
+    <!-- BUYER -->
+
+    <div
+        class="role-option active"
+        id="buyerOption"
+        onclick="selectRole('BUYER')">
+
+        <div class="role-icon">
+            B
+        </div>
+
+        <div class="role-name">
+            Buyer
+        </div>
+
+        <div class="role-description">
+            Browse cars
+        </div>
+
+    </div>
+
+    <!-- SELLER -->
+
+    <div
+        class="role-option"
+        id="sellerOption"
+        onclick="selectRole('SELLER')">
+
+        <div class="role-icon">
+            S
+        </div>
+
+        <div class="role-name">
+            Seller
+        </div>
+
+        <div class="role-description">
+            Sell cars
+        </div>
+
+    </div>
+
+    <!-- ADMIN -->
+
+    <div
+        class="role-option"
+        id="adminOption"
+        onclick="selectRole('ADMIN')">
+
+        <div class="role-icon">
+            A
+        </div>
+
+        <div class="role-name">
+            Admin
+        </div>
+
+        <div class="role-description">
+            Manage MarketX
+        </div>
+
+    </div>
+
+</div>
+
+<!-- LOGIN FORM -->
+
+<form id="loginForm">
+
+    <!-- EMAIL -->
+
+    <div class="form-group">
+
+        <label for="email">
+            Email
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required>
+
+    </div>
+
+    <!-- PASSWORD -->
+
+    <div class="form-group">
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            required>
+
+    </div>
+
+    <!-- BUTTON -->
+
+    <button
+        type="submit"
+        class="login-btn"
+        id="loginButton">
+
+        Login as Buyer
+
+    </button>
+
+</form>
+
+<div id="message"></div>
+
+<div class="register">
+
+    Don't have an account?
+
+    <a href="register.html">
+        Register
+    </a>
+
+</div>
+
+<a
+    href="index.html"
+    class="home">
+
+    ← Back to Home
+
+</a>
+```
+
+</div>
+
+<script>
+
+    // Default role
+
+    let selectedRole = "BUYER";
+
+
+    // =========================================================
+    // SELECT ROLE
+    // =========================================================
+
+    function selectRole(role) {
+
+        selectedRole = role;
+
+        const buyerOption =
+            document.getElementById("buyerOption");
+
+        const sellerOption =
+            document.getElementById("sellerOption");
+
+        const adminOption =
+            document.getElementById("adminOption");
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+
+        // Remove active
+
+        buyerOption.classList.remove("active");
+
+        sellerOption.classList.remove("active");
+
+        adminOption.classList.remove("active");
+
+
+        // Select role
+
+        if (role === "BUYER") {
+
+            buyerOption.classList.add("active");
+
+            loginButton.textContent =
+                "Login as Buyer";
+
+        }
+
+        else if (role === "SELLER") {
+
+            sellerOption.classList.add("active");
+
+            loginButton.textContent =
+                "Login as Seller";
+
+        }
+
+        else if (role === "ADMIN") {
+
+            adminOption.classList.add("active");
+
+            loginButton.textContent =
+                "Login as Admin";
+
+        }
+
+    }
+
+
+    // =========================================================
+    // LOGIN
+    // =========================================================
+
+    document
+        .getElementById("loginForm")
+        .addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                // Get email
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                // Get password
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+
+                const message =
+                    document
+                        .getElementById("message");
+
+
+                const button =
+                    document
+                        .getElementById("loginButton");
+
+
+                // Loading
+
+                message.textContent =
+                    "Logging in...";
+
+                message.style.color =
+                    "#cbd5e1";
+
+                button.disabled = true;
+
+
+                try {
+
+                    // Send login request
+
+                    const response =
+                        await fetch(
+                            "/api/users/login",
+                            {
+
+                                method: "POST",
+
+                                credentials: "include",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json"
+
+                                },
+
+                                body: JSON.stringify({
+
+                                    email: email,
+
+                                    password: password,
+
+                                    role: selectedRole
+
+                                })
+
+                            }
+                        );
+
+
+                    // Read response
+
+                    const data =
+                        await response.json()
+                            .catch(() => null);
+
+
+                    // Login failed
+
+                    if (!response.ok) {
+
+                        message.textContent =
+                            typeof data === "string"
+                                ? data
+                                : "Invalid email or password.";
+
+                        message.style.color =
+                            "#f87171";
+
+                        button.disabled = false;
+
+                        return;
+
+                    }
+
+
+                    // Check current session
+
+                    const meResponse =
+                        await fetch(
+                            "/api/users/me",
+                            {
+
+                                credentials:
+                                    "include",
+
+                                cache:
+                                    "no-store"
+
+                            }
+                        );
+
+
+                    if (!meResponse.ok) {
+
+                        message.textContent =
+                            "Login session could not be created.";
+
+                        message.style.color =
+                            "#f87171";
+
+                        button.disabled = false;
+
+                        return;
+
+                    }
+
+
+                    // Get current user
+
+                    const currentUser =
+                        await meResponse.json();
+
+
+                    // Save user
+
+                    localStorage.setItem(
+                        "marketxUser",
+                        JSON.stringify(currentUser)
+                    );
+
+
+                    // Save actual role
+
+                    localStorage.setItem(
+                        "marketxRole",
+                        currentUser.role
+                    );
+
+
+                    // Success
+
+                    message.textContent =
+                        "Login successful!";
+
+                    message.style.color =
+                        "#4ade80";
+
+
+                    // =================================================
+                    // REDIRECT
+                    // =================================================
+
+                    setTimeout(
+                        function() {
+
+                            // ADMIN
+
+                            if (
+                                currentUser.role &&
+                                currentUser.role
+                                    .toUpperCase() === "ADMIN"
+                            ) {
+
+                                window.location.href =
+                                    "admin.html";
+
+                                return;
+                            }
+
+
+                            // SELLER
+
+                            if (
+                                currentUser.role &&
+                                currentUser.role
+                                    .toUpperCase() === "SELLER"
+                            ) {
+
+                                window.location.href =
+                                    "my-cars.html";
+
+                                return;
+                            }
+
+
+                            // BUYER
+
+                            window.location.href =
+                                "car-list.html";
+
+                        },
+                        500
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Login error:",
+                        error
+                    );
+
+                    message.textContent =
+                        "Server error. Please try again.";
+
+                    message.style.color =
+                        "#f87171";
+
+                    button.disabled = false;
+
+                }
+
+            }
+        );
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MarketX - Favorites</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* =========================================
+           MARKETX FAVORITES PAGE
+           ========================================= */
+
+        .favorite-card {
+
+            background: #111714 !important;
+
+            padding: 25px;
+
+            margin: 25px 0;
+
+            border-radius: 15px;
+
+            border: 1px solid #26332d;
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.45);
+
+            color: #f5f7f5;
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+
+        .favorite-card:hover {
+
+            transform: translateY(-5px);
+
+            border-color: #0b6b45;
+
+            box-shadow:
+                0 20px 45px rgba(11, 107, 69, 0.20);
+        }
+
+
+        /* =========================================
+           CAR IMAGE
+           ========================================= */
+
+        .favorite-card img {
+
+            width: 100%;
+
+            max-width: 650px;
+
+            height: 310px;
+
+            object-fit: cover;
+
+            border-radius: 12px;
+
+            display: block;
+
+            margin-bottom: 20px;
+
+            transition:
+                transform 0.4s ease;
+        }
+
+
+        .favorite-card:hover img {
+
+            transform: scale(1.02);
+        }
+
+
+        /* =========================================
+           CAR NAME
+           ========================================= */
+
+        .favorite-card h2 {
+
+            color: #f5f7f5 !important;
+
+            margin: 10px 0;
+
+            font-size: 26px;
+        }
+
+
+        /* Price */
+
+        .favorite-card h2:nth-of-type(2) {
+
+            color: #00d88a !important;
+
+            font-size: 25px;
+        }
+
+
+        /* Variant */
+
+        .favorite-card h3 {
+
+            color: #d4af37 !important;
+
+            margin: 8px 0 15px;
+
+            font-size: 18px;
+        }
+
+
+        /* =========================================
+           CAR INFORMATION
+           ========================================= */
+
+        .favorite-card p {
+
+            color: #aab5ae !important;
+
+            margin: 8px 0;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================================
+           BUTTONS
+           ========================================= */
+
+        .favorite-card button {
+
+            margin-right: 10px;
+
+            margin-top: 18px;
+
+            padding: 11px 18px;
+
+            border: 1px solid #0b6b45;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            background: #0b6b45;
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+
+        .favorite-card button:hover {
+
+            background: #149b68;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 20px rgba(11, 107, 69, 0.25);
+        }
+
+
+        /* Remove favorite */
+
+        .favorite-card .remove-button {
+
+            background: #351414 !important;
+
+            border-color: #6e2929 !important;
+
+            color: #ff9b9b !important;
+        }
+
+
+        .favorite-card .remove-button:hover {
+
+            background: #8f2525 !important;
+
+            color: #ffffff !important;
+        }
+
+
+        /* =========================================
+           EMPTY FAVORITES
+           ========================================= */
+
+        #favoritesContainer > h2 {
+
+            color: #f5f7f5 !important;
+        }
+
+
+        #favoritesContainer > p {
+
+            color: #aab5ae !important;
+        }
+
+
+        #favoritesContainer > a {
+
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding: 12px 20px;
+
+            background: #0b6b45;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            transition:
+                background 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        #favoritesContainer > a:hover {
+
+            background: #149b68;
+
+            transform: translateY(-3px);
+        }
+
+
+        /* =========================================
+           MOBILE
+           ========================================= */
+
+        @media (max-width: 700px) {
+
+            .favorite-card {
+
+                padding: 18px;
+
+            }
+
+
+            .favorite-card img {
+
+                height: 220px;
+
+            }
+
+
+            .favorite-card button {
+
+                width: 100%;
+
+                margin-right: 0;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =========================================
+         NAVIGATION
+         ========================================= -->
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+
+        <a href="car-list.html">
+            Browse Cars
+        </a>
+
+
+        <a href="add-car.html">
+            Sell Your Car
+        </a>
+
+
+        <a href="my-cars.html">
+            My Cars
+        </a>
+
+
+        <a href="favorites.html">
+            Favorites
+        </a>
+
+
+        <a href="profile.html">
+            Profile
+        </a>
+
+    </nav>
+
+
+    <!-- =========================================
+         PAGE TITLE
+         ========================================= -->
+
+    <h1>
+        My Favorites
+    </h1>
+
+
+    <p>
+        Cars you have saved as favorites.
+    </p>
+
+
+    <!-- =========================================
+         FAVORITES
+         ========================================= -->
+
+    <div id="favoritesContainer">
+
+        <p>
+            Loading favorites...
+        </p>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    const API_URL = "/api/cars";
+
+    let allCars = [];
+
+
+    // =========================================
+    // LOAD FAVORITE CARS
+    // =========================================
+
+    async function loadFavorites() {
+
+        try {
+
+            const savedFavorites =
+                localStorage.getItem(
+                    "marketxFavorites"
+                );
+
+
+            if (!savedFavorites) {
+
+                showEmptyFavorites();
+
+                return;
+
+            }
+
+
+            const favoriteIds =
+                JSON.parse(
+                    savedFavorites
+                );
+
+
+            if (favoriteIds.length === 0) {
+
+                showEmptyFavorites();
+
+                return;
+
+            }
+
+
+            // Get cars from MySQL
+
+            const response =
+                await fetch(
+                    API_URL
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load cars."
+                );
+
+            }
+
+
+            allCars =
+                await response.json();
+
+
+            // Find favorite cars
+
+            const favoriteCars =
+                allCars.filter(
+                    car =>
+                        favoriteIds.includes(
+                            car.id
+                        )
+                );
+
+
+            displayFavorites(
+                favoriteCars
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+
+            document.getElementById(
+                "favoritesContainer"
+            ).innerHTML = `
+
+                <h2>
+                    Unable to load favorites.
+                </h2>
+
+                <p>
+                    Make sure Spring Boot is running.
+                </p>
+
+            `;
+
+        }
+
+    }
+
+
+    // =========================================
+    // DISPLAY FAVORITES
+    // =========================================
+
+    function displayFavorites(cars) {
+
+        const container =
+            document.getElementById(
+                "favoritesContainer"
+            );
+
+
+        if (cars.length === 0) {
+
+            showEmptyFavorites();
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        cars.forEach(
+            function(car) {
+
+
+                let imageUrl =
+                    car.image;
+
+
+                if (!imageUrl) {
+
+                    imageUrl =
+                        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1000&q=80";
+
+                }
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "favorite-card";
+
+
+                card.innerHTML = `
+
+                    <img
+                        src="${imageUrl}"
+                        alt="${car.brand} ${car.model}"
+                    >
+
+
+                    <h2>
+                        ${car.brand}
+                        ${car.model}
+                    </h2>
+
+
+                    <h3>
+                        ${car.variant}
+                    </h3>
+
+
+                    <h2>
+                        ₹${Number(
+                            car.price
+                        ).toLocaleString("en-IN")}
+                    </h2>
+
+
+                    <p>
+                        Fuel:
+                        ${car.fuelType}
+                    </p>
+
+
+                    <p>
+                        Transmission:
+                        ${car.transmission}
+                    </p>
+
+
+                    <p>
+                        Year:
+                        ${car.manufacturingYear}
+                    </p>
+
+
+                    <p>
+                        Kilometers:
+                        ${car.kilometersDriven} km
+                    </p>
+
+
+                    <p>
+                        Location:
+                        ${car.location}
+                    </p>
+
+
+                    <button
+                        onclick="viewCar(${car.id})"
+                    >
+                        View Details
+                    </button>
+
+
+                    <button
+                        class="remove-button"
+                        onclick="removeFavorite(${car.id})"
+                    >
+                        Remove Favorite
+                    </button>
+
+                `;
+
+
+                container.appendChild(
+                    card
+                );
+
+            }
+        );
+
+    }
+
+
+    // =========================================
+    // EMPTY FAVORITES
+    // =========================================
+
+    function showEmptyFavorites() {
+
+        document.getElementById(
+            "favoritesContainer"
+        ).innerHTML = `
+
+            <h2>
+                No favorite cars yet.
+            </h2>
+
+            <p>
+                Browse cars and add your favorite cars here.
+            </p>
+
+            <a href="car-list.html">
+                Browse Cars
+            </a>
+
+        `;
+
+    }
+
+
+    // =========================================
+    // VIEW CAR
+    // =========================================
+
+    function viewCar(id) {
+
+        window.location.href =
+            "car-details.html?id=" +
+            id;
+
+    }
+
+
+    // =========================================
+    // REMOVE FAVORITE
+    // =========================================
+
+    function removeFavorite(id) {
+
+        let favorites =
+            JSON.parse(
+                localStorage.getItem(
+                    "marketxFavorites"
+                ) || "[]"
+            );
+
+
+        favorites =
+            favorites.filter(
+                favoriteId =>
+                    favoriteId !== id
+            );
+
+
+        localStorage.setItem(
+            "marketxFavorites",
+            JSON.stringify(
+                favorites
+            )
+        );
+
+
+        loadFavorites();
+
+    }
+
+
+    // =========================================
+    // START
+    // =========================================
+
+    loadFavorites();
+
+</script>
+
+
+</body>
+
+</html>

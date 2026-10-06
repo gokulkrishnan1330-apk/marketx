@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MarketX - Create Account</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #263b70 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #183d45 0%, transparent 35%),
+                #080b12;
+            color: white;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+        }
+
+        .register-wrapper {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .brand h1 {
+            font-size: 36px;
+            letter-spacing: -1px;
+        }
+
+        .brand span {
+            color: #4da3ff;
+        }
+
+        .brand p {
+            margin-top: 8px;
+            color: #9da7b7;
+            font-size: 14px;
+        }
+
+        .card {
+            background: rgba(18, 23, 34, 0.95);
+            border: 1px solid #293142;
+            border-radius: 20px;
+            padding: 35px;
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        .card h2 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #8f99aa;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #dce2ec;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px 15px;
+
+            background: #0d121c;
+            border: 1px solid #303949;
+            border-radius: 10px;
+
+            color: white;
+            outline: none;
+
+            font-size: 15px;
+
+            transition: 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #4da3ff;
+            box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12);
+        }
+
+        input::placeholder {
+            color: #667085;
+        }
+
+        select option {
+            background: #10151f;
+            color: white;
+        }
+
+        .password-note {
+            color: #727d90;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .register-button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+
+            padding: 15px;
+
+            background: #4da3ff;
+            color: white;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            margin-top: 8px;
+
+            transition: 0.2s;
+        }
+
+        .register-button:hover {
+            background: #318de8;
+            transform: translateY(-1px);
+        }
+
+        .register-button:disabled {
+            background: #49627d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #8993a4;
+            font-size: 14px;
+        }
+
+        .login-text a {
+            color: #4da3ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-text a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #8993a4;
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .back-home:hover {
+            color: white;
+        }
+
+        .message {
+            display: none;
+
+            margin-bottom: 18px;
+            padding: 12px 14px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.error {
+            display: block;
+            background: rgba(220, 60, 60, 0.12);
+            border: 1px solid rgba(220, 60, 60, 0.35);
+            color: #ff9d9d;
+        }
+
+        .message.success {
+            display: block;
+            background: rgba(50, 190, 120, 0.12);
+            border: 1px solid rgba(50, 190, 120, 0.35);
+            color: #79e0ac;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 18px;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            .brand h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="register-wrapper">
+
+    <div class="brand">
+        <h1>Market<span>X</span></h1>
+        <p>Your marketplace for buying and selling cars</p>
+    </div>
+
+    <div class="card">
+
+        <h2>Create your account</h2>
+
+        <p class="subtitle">
+            Join MarketX and start exploring or selling cars.
+        </p>
+
+        <div id="message" class="message"></div>
+
+        <form id="registerForm">
+
+            <!-- NAME -->
+            <div class="form-group">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- EMAIL -->
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PHONE -->
+            <div class="form-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Enter 10-digit phone number"
+                    maxlength="10"
+                    pattern="[0-9]{10}"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create a password"
+                    minlength="4"
+                    required
+                >
+
+                <div class="password-note">
+                    Use at least 4 characters.
+                </div>
+
+            </div>
+
+
+            <!-- ACCOUNT TYPE -->
+            <div class="form-group">
+
+                <label for="role">
+                    Account Type
+                </label>
+
+                <select id="role" required>
+
+                    <option value="BUYER">
+                        Buyer - Browse and purchase cars
+                    </option>
+
+                    <option value="SELLER">
+                        Seller - List and sell cars
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="register-button"
+                id="registerButton"
+            >
+                Create Account
+            </button>
+
+        </form>
+
+
+        <div class="login-text">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </div>
+
+        <a
+            href="index.html"
+            class="back-home"
+        >
+            ← Back to MarketX
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const registerForm =
+    document.getElementById("registerForm");
+
+const registerButton =
+    document.getElementById("registerButton");
+
+const message =
+    document.getElementById("message");
+
+
+registerForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        // -----------------------------------------
+        // GET FORM VALUES
+        // -----------------------------------------
+
+        const name =
+            document.getElementById("name")
+                .value
+                .trim();
+
+        const email =
+            document.getElementById("email")
+                .value
+                .trim();
+
+        const phone =
+            document.getElementById("phone")
+                .value
+                .trim();
+
+        const password =
+            document.getElementById("password")
+                .value;
+
+        const role =
+            document.getElementById("role")
+                .value;
+
+
+        // -----------------------------------------
+        // VALIDATE PHONE
+        // -----------------------------------------
+
+        if (!/^\d{10}$/.test(phone)) {
+
+            showMessage(
+                "Phone number must contain exactly 10 digits.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // -----------------------------------------
+        // CREATE USER OBJECT
+        // -----------------------------------------
+
+        const user = {
+
+            name: name,
+
+            email: email,
+
+            phone: phone,
+
+            password: password,
+
+            role: role
+
+        };
+
+
+        console.log(
+            "Registration request:",
+            user
+        );
+
+
+        // -----------------------------------------
+        // DISABLE BUTTON
+        // -----------------------------------------
+
+        registerButton.disabled = true;
+
+        registerButton.textContent =
+            "Creating Account...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/users/register",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(user)
+
+                    }
+                );
+
+
+            // -----------------------------------------
+            // READ SERVER RESPONSE
+            // -----------------------------------------
+
+            const responseText =
+                await response.text();
+
+
+            console.log(
+                "Server status:",
+                response.status
+            );
+
+            console.log(
+                "Server response:",
+                responseText
+            );
+
+
+            // -----------------------------------------
+            // SUCCESS
+            // -----------------------------------------
+
+            if (response.ok) {
+
+                showMessage(
+                    "Registration successful. Redirecting to login...",
+                    "success"
+                );
+
+
+                setTimeout(function() {
+
+                    window.location.href =
+                        "login.html";
+
+                }, 1000);
+
+
+                return;
+            }
+
+
+            // -----------------------------------------
+            // ERROR
+            // -----------------------------------------
+
+            let errorMessage =
+                "Registration failed.";
+
+
+            if (responseText) {
+
+                errorMessage =
+                    responseText;
+
+            }
+
+
+            showMessage(
+                errorMessage,
+                "error"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Registration error:",
+                error
+            );
+
+
+            showMessage(
+                "Server error. Make sure Spring Boot is running.",
+                "error"
+            );
+
+        } finally {
+
+            registerButton.disabled =
+                false;
+
+            registerButton.textContent =
+                "Create Account";
+
+        }
+
+    }
+);
+
+
+// -----------------------------------------
+// SHOW MESSAGE
+// -----------------------------------------
+
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
+
+}
+
+</script>
+
+</body>
+
+</html>
